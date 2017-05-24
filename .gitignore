@@ -1,0 +1,10 @@
+#Archivos compilados de Python
+*.pyc
+
+*.pickle
+
+*.csv
+
+*.txt
+
+*.xls
