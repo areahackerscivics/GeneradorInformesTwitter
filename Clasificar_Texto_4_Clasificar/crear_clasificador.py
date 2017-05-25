@@ -12,7 +12,7 @@ sys.path.append(path)
 try:
     from DAO.LeerArchivo_csv import leer_archivo #a.1
     from DAO.LeerDB_Mongo import leer
-   
+
 except ImportError:
     print 'Verificar si en la carpeta Procesar existen los archivos: LeerArchivo_csv y/o ValidacionCruzada'
 
@@ -69,7 +69,7 @@ tanto para el corpus de entrenamiento como el de pruebas
 """
 
 #c.2---------------------------------------------------------------------------------------
-# tfidf 
+# tfidf
 vectorizar, entrenamiento = tfidf_extractor(norm_entrena_corpus)
 print 'vector'
 SGDtfidf=Crear_clasificadorSGD(entrenamiento,categorias)
@@ -89,8 +89,8 @@ except ImportError:
     print 'Verifique si tiene instalada la librería cPickle'
 
 filePath = os.path.abspath('output')
-dafile="vectorizar.pickle"
-dafileclasif="SGD.pickle"
+dafile="vectorizador.pickle"
+dafileclasif="clasificador.pickle"
 
 
 #2_tfidf_vectorizar
@@ -98,14 +98,11 @@ datafile = os.path.join(filePath,dafile)
 fichero = file(datafile, "w")
 pickle.dump(vectorizar, fichero)
 fichero.close()
-print 'Creado vectorizar.pickle'
+print 'Creado ' + dafile
 
 #2_tfidf_SGD
 datafile = os.path.join(filePath,dafileclasif)
 fichero = file(datafile, "w")
 pickle.dump(SGDtfidf, fichero)
 fichero.close()
-print 'Creado SGD.pickle'
-
-
-
+print 'Creado ' + dafileclasif
