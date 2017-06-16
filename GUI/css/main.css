@@ -1,0 +1,108 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.bottomOfThePage{
+    position:fixed;
+    bottom:0px;
+    width:100%;
+}
+.centerOfThePage{
+    text-align: center;
+    //other text stuff like color
+ }
+textarea.estilo {
+  resize: none; /* disables resizability */
+  border-style: none; 
+  border-color: Transparent; 
+  background-color:Transparent;
+  overflow: auto;
+  font-family: Arial;
+}
+table.estilo {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+input[type="text"].estilo1{
+ border-style: none; 
+  border-color: Transparent; 
+  background-color:Transparent;
+  overflow: auto;
+  font-family: Arial;
+}
+input[type="submit"].estilo2 {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.container{
+    text-align:center
+}
+.left{
+    float: left;
+    background:blue
+}
+.right{
+    float: right;
+    background:red
+}
+.center{
+    background:green;
+   display:inline-block
+}
