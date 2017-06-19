@@ -3,6 +3,7 @@
 <head>
   <title>Administrar Clasificadores</title>
   <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <script type="text/javascript" src="/js/administrarClasificadores.js"></script>
 
   <style>
         .label {text-align: right}
@@ -11,6 +12,7 @@
 </head>
 <class="product-details-title">
   <body>
+
 
     <!-- menu -->
     <ul>
@@ -59,7 +61,7 @@
         %     entrena_fin = clasi['entrena_fin'].date()
         %     fecha_creacion = clasi['fecha_creacion'].replace(microsecond=0)
         %     predeterminado = clasi['predeterminado']
-        <tr>
+        <tr onclick="seleccionarFila(this)">
           <td>
             {{nombre}}
           </td>
@@ -88,37 +90,58 @@
 
     <!-- Content derecha. Botones y labels. -->
     <div id="ac_cont_der">
+      <div id="menu_acciones">
+
+         <button type="button" onclick="visibilidad('anyadir')">Añadir</button>
+         <button type="button" onclick="visibilidad('borrar')">Borrar</button>
+         <button type="button" onclick="visibilidad('editar')">Editar</button>
+         <button type="button" onclick="visibilidad('reentrenar')">Reentrenar</button>
+      </div>
       <div id="anyadir">
         <form name="anyadir" action="/Anyadir" method="POST">
           <table>
             <tr>
               <td>Nombre:</td>
               <td>
-                <input type="text" name="anyadir_nombre">
+                <input type="text"  name="anyadir_nombre" >
               </td>
             </tr>
             <tr>
               <td>Fecha inicio para entrenamiento:</td>
               <td>
-                <input type="text" name="anyadir_entrena_ini">
+                <input type="text" class="input_text" name="anyadir_entrena_ini" value="AAAA-MM-DD" onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
               </td>
             </tr>
             <tr>
               <td>Fecha fin para entrenamiento:</td>
               <td>
-                <input type="text" name="anyadir_entrena_fin">
+                <input type="text" class="input_text" name="anyadir_entrena_fin" value="AAAA-MM-DD" onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
               </td>
             </tr>
           </table>
 
-          <input type="submit" value="Añadir" />
+          <input type="submit" value="Enviar" />
         </form>
       </div>
       <div id="borrar">
+        <form name="borrar" action="/Borrar" method="POST">
+          <table>
+            <tr>
+              <td>Nombre:</td>
+              <td>
+                <input type="text" id="inpBorrar" name="borrar_nombre">
+              </td>
+            </tr>
+          </table>
+
+          <input type="submit" value="Eliminar clasificador" />
+        </form>
       </div>
       <div id="editar">
+        No disponible
       </div>
-      <div id="actualizar">
+      <div id="reentrenar">
+        No disponible
       </div>
     </div>
   </body>

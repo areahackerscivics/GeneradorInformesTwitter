@@ -115,15 +115,34 @@ input[type="submit"].estilo2 {
 /*------------- INICIO ADMINISTRARCLASIFICADOR -------------------------------*/
 
 #ac_cont_izq{
-  border: solid 1px black;
   float: left;
   width: 65%;
 }
 
 #ac_cont_der{
-  border: solid 1px red;
   float: right;
   width: 32%;
+}
+
+
+#anyadir{
+  display: block;
+}
+
+#borrar{
+  display: none;
+}
+
+#editar{
+  display: none;
+}
+
+#reentrenar{
+  display: none;
+}
+
+.input_text{
+  color: #D8D8D8;
 }
 
 /*------------- FIN ADMINISTRARCLASIFICADOR ----------------------------------*/

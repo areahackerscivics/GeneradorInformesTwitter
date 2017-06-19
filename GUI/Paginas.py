@@ -210,4 +210,5 @@ def staticCSS(filename):
 def staticJS(filename):
     return bottle.static_file(filename, root='./js')
 
+
 bottle.run(host='localhost', port=8080)
