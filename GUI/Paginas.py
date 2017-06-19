@@ -199,7 +199,7 @@ def listar_clasificadores():
 
     clasific = getClasificadoresBLL()
 
-    return bottle.template('/views/administrarClasificadores.tpl',clasificadores=clasific)
+    return bottle.template('administrarClasificadores',clasificadores=clasific)
 
 
 @bottle.route('/css/:filename', name='css')

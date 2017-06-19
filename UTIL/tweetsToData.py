@@ -37,6 +37,7 @@ def transform(listaTweets):
     for tw in listaTweets:
 
         etiqueta = tw['categoria']
+
         if etiqueta == 'Ciencia y tecnología':
             etq = 0
         elif etiqueta == 'Comercio':

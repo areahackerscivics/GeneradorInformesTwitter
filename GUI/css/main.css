@@ -59,8 +59,8 @@ li.dropdown {
  }
 textarea.estilo {
   resize: none; /* disables resizability */
-  border-style: none; 
-  border-color: Transparent; 
+  border-style: none;
+  border-color: Transparent;
   background-color:Transparent;
   overflow: auto;
   font-family: Arial;
@@ -82,8 +82,8 @@ th {
     color: white;
 }
 input[type="text"].estilo1{
- border-style: none; 
-  border-color: Transparent; 
+ border-style: none;
+  border-color: Transparent;
   background-color:Transparent;
   overflow: auto;
   font-family: Arial;
@@ -106,3 +106,24 @@ input[type="submit"].estilo2 {
     background:green;
    display:inline-block
 }
+
+
+
+
+
+
+/*------------- INICIO ADMINISTRARCLASIFICADOR -------------------------------*/
+
+#ac_cont_izq{
+  border: solid 1px black;
+  float: left;
+  width: 65%;
+}
+
+#ac_cont_der{
+  border: solid 1px red;
+  float: right;
+  width: 32%;
+}
+
+/*------------- FIN ADMINISTRARCLASIFICADOR ----------------------------------*/

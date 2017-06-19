@@ -15,7 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 from sklearn.linear_model import SGDClassifier
 
-from DAO import *
+from DAO.administrarClasificadoresDAO import *
 from UTIL.tweetsToData import transform
 
 import multiprocessing

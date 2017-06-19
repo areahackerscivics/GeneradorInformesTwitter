@@ -1,12 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
-  <head>
+<head>
+  <title>Administrar Clasificadores</title>
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+
+  <style>
+        .label {text-align: right}
+        .error {color: red}
+  </style>
+</head>
+<class="product-details-title">
   <body>
 
+    <!-- menu -->
+    <ul>
+      <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">Administrar</a>
+        <div class="dropdown-content">
+              <a href="/clasificar">Clasificación</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">Revisar</a>
+        <div class="dropdown-content">
+              <a href="/revision">Revision por Categoría</a>
+              <a href="/metrica">Métricas</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">Reporte</a>
+        <div class="dropdown-content">
+              <a href="#">Reporte 1</a>
+        </div>
+      </li>
+    </ul>
+    <!-- fin menu -->
+
     <!-- Content izquierda. Tabla de clasificadores. -->
-    <div id="cont_izq">
+    <div id="ac_cont_izq">
       <table>
         <tr>
           <th>Nombre</th>
@@ -20,11 +51,13 @@
 
         % for clasi in clasificadores:
         %     nombre = clasi['nombre']
-        %     acc = clasi['acc']
-        %     desv = clasi['desviacion']
-        %     entrena_ini = clasi['entrena_ini']
-        %     entrena_fin = clasi['entrena_fin']
-        %     fecha_creacion = clasi['fecha_creacion']
+        %     acc = round( ((clasi['accuracy'])*100), 2 )
+        %     acc = str(acc) + ' %'
+        %     desv =  round( ((clasi['desviacion'])*100), 2 )
+        %     desv = '+/- ' + str(desv) + ' %'
+        %     entrena_ini =  clasi['entrena_ini'].date()
+        %     entrena_fin = clasi['entrena_fin'].date()
+        %     fecha_creacion = clasi['fecha_creacion'].replace(microsecond=0)
         %     predeterminado = clasi['predeterminado']
         <tr>
           <td>
@@ -54,7 +87,7 @@
     </div>
 
     <!-- Content derecha. Botones y labels. -->
-    <div id="cont_der">
+    <div id="ac_cont_der">
       <div id="anyadir">
         <form name="anyadir" action="/Anyadir" method="POST">
           <table>
