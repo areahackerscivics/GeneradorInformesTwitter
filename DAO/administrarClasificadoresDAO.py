@@ -59,7 +59,6 @@ def addClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin):
 
     post_id = clasificadores.insert(modelo)
 
-
 def getClasificadores():
     conexion = getConexion()
     client = MongoClient(conexion)
@@ -70,3 +69,18 @@ def getClasificadores():
     clasificadores = cursor.find({})
 
     return list(clasificadores)
+
+
+def eliminarClasificadorDAO(nombre):
+    conexion = getConexion()
+    client = MongoClient(conexion)
+    tdb = getDB()
+    db = client[tdb]
+    coleccion = getCollClasificadores()
+    cursor = db[coleccion]
+
+
+    result = cursor.delete_one({'nombre': nombre})
+
+    if result.deleted_count != 1:
+        raise Exception('Ha fallado el eliminar el clasificador ' + nombre)

@@ -183,6 +183,16 @@ def clasificar_enviar():
     #return bottle.template('clasificar',dict=dicc)
 
 
+# ====================  ADMINISTRAR CLASIFICADORES =============================
+
+@bottle.post('/Borrar')
+def borrarClasificador():
+    nombre = bottle.request.forms.get('borrar_nombre')
+
+    eliminarClasificador(nombre)
+
+    bottle.redirect("/ListarClasificadores")
+
 @bottle.post('/Anyadir')
 def anyadirClasificador():
     nombre = bottle.request.forms.get('anyadir_nombre')
@@ -201,6 +211,8 @@ def listar_clasificadores():
 
     return bottle.template('administrarClasificadores',clasificadores=clasific)
 
+
+# ==================== FIN ADMINISTRAR CLASIFICADORES ==========================
 
 @bottle.route('/css/:filename', name='css')
 def staticCSS(filename):

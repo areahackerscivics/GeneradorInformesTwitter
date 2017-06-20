@@ -59,3 +59,24 @@ def crearClasificador(nombre, entrena_ini, entrena_fin):
 
 def getClasificadoresBLL():
     return getClasificadores()
+
+
+
+def eliminarClasificador(nombre):
+    try:
+        eliminarClasificadorDAO(nombre)
+
+        modelo = os.path.abspath('../MODELOS/'+ nombre +'.pickle')
+        print 'Path modelo: ' + str(modelo)
+        os.remove(modelo)
+        vector = os.path.abspath('../VECTORIZER/vectorizer_'+ nombre +'.pickle')
+        print 'Path vector: ' + str(vector)
+        os.remove(vector)
+
+    except Exception as error:
+        # Como mandarle un alert al tpl con el error ?
+        # Si view recibe una excepcion, redirecciona a un tpl de error pasandole:
+        # 1. la pagina donde estaba
+        # 2. el mensaje de error
+        # tras pulsar en el aceptar del alert, envia por POST la pagina donde estaba y redireccion
+        print error
