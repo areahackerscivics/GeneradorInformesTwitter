@@ -27,6 +27,7 @@ div.clear {
 <a href="javascript:void(0)" class="dropbtn">Administrar</a>
 <div class="dropdown-content">
       <a href="/clasificar">Clasificación</a>
+      <a href="/ListarClasificadores">Clasificadores</a>
 </div>
 </li>
 <li class="dropdown">
@@ -50,13 +51,13 @@ div.clear {
 	<tr>
 		<td><strong>Fecha Inicio</strong></td>
 		<td><strong>Fecha Fin</strong></td>
-		<td></td>	
+		<td></td>
 	</tr>
 	<tr>
 		<td><input type="date" name="FechaInicio" value={{fechaini}}></td>
 		<td><input type="date" name="FechaFin" value={{fechafin}}></td>
 		<td><input type="submit" class="estilo2" value="Listar"></td>
-		</form>		
+		</form>
 	</tr>
 	</table>
 <script src="/js/Chart.js"></script>
@@ -168,15 +169,15 @@ var pie = new d3pie("pieChart", {
 	</tr>
 	% for i in range(len(dict['cat'])):
 		<tr>
-		<td>{{dict['cat'][i]}}</td> 
+		<td>{{dict['cat'][i]}}</td>
 		<td>{{dict['D'][i]}}</td>
 		<td>{{dict['R'][i]}}</td>
 		<td>{{dict['C'][i]}}</td>
 		<td>{{dict['SubTC'][i]}}</td>
-		</tr>		
+		</tr>
 	% end
 </table>
- </div> 
+ </div>
  </div>
 </body>
 </html>

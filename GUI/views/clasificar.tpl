@@ -13,6 +13,7 @@
 <a href="javascript:void(0)" class="dropbtn">Administrar</a>
 <div class="dropdown-content">
       <a href="/clasificar">Clasificación</a>
+      <a href="/ListarClasificadores">Clasificadores</a>
 </div>
 </li>
 <li class="dropdown">
@@ -39,15 +40,15 @@
 	<tr>
 		<td><strong>Fecha Inicio</strong></td>
 		<td><strong>Fecha Fin</strong></td>
-		<td></td>	
+		<td></td>
 	</tr>
 	<tr>
 		<td><input type="date" name="FechaInicio" value={{fechaini}}></td>
 		<td><input type="date" name="FechaFin" value={{fechafin}}></td>
 		<td><input type="submit" class="estilo2" value="Enviar"></td>
-		</form>		
+		</form>
 	</tr>
 	</table>
-    
+
 </body>
 </html>

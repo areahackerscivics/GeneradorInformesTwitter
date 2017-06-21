@@ -63,20 +63,16 @@ def getClasificadoresBLL():
 
 
 def eliminarClasificador(nombre):
-    try:
-        eliminarClasificadorDAO(nombre)
 
-        modelo = os.path.abspath('../MODELOS/'+ nombre +'.pickle')
-        print 'Path modelo: ' + str(modelo)
-        os.remove(modelo)
-        vector = os.path.abspath('../VECTORIZER/vectorizer_'+ nombre +'.pickle')
-        print 'Path vector: ' + str(vector)
-        os.remove(vector)
+    eliminarClasificadorDAO(nombre)
 
-    except Exception as error:
-        # Como mandarle un alert al tpl con el error ?
-        # Si view recibe una excepcion, redirecciona a un tpl de error pasandole:
-        # 1. la pagina donde estaba
-        # 2. el mensaje de error
-        # tras pulsar en el aceptar del alert, envia por POST la pagina donde estaba y redireccion
-        print error
+    modelo = os.path.abspath('../MODELOS/'+ nombre +'.pickle')
+    os.remove(modelo)
+    vector = os.path.abspath('../VECTORIZER/vectorizer_'+ nombre +'.pickle')
+    os.remove(vector)
+
+    # Como mandarle un alert al tpl con el error ?
+    # Si view recibe una excepcion, redirecciona a un tpl de error pasandole:
+    # 1. la pagina donde estaba
+    # 2. el mensaje de error
+    # tras pulsar en el aceptar del alert, envia por POST la pagina donde estaba y redireccion

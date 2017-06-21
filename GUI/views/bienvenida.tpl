@@ -20,6 +20,7 @@
           <a href="javascript:void(0)" class="dropbtn">Administrar</a>
           <div class="dropdown-content">
                 <a href="/clasificar">Clasificación</a>
+                <a href="/ListarClasificadores">Clasificadores</a>
           </div>
         </li>
         <li class="dropdown">

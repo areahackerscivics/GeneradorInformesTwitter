@@ -20,6 +20,7 @@
         <a href="javascript:void(0)" class="dropbtn">Administrar</a>
         <div class="dropdown-content">
               <a href="/clasificar">Clasificación</a>
+              <a href="/ListarClasificadores">Clasificadores</a>
         </div>
       </li>
       <li class="dropdown">
@@ -109,13 +110,13 @@
             <tr>
               <td>Fecha inicio para entrenamiento:</td>
               <td>
-                <input type="text" class="input_text" name="anyadir_entrena_ini" value="AAAA-MM-DD" onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
+                <input type="date" class="input_text" name="anyadir_entrena_ini" value="AAAA-MM-DD" onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
               </td>
             </tr>
             <tr>
               <td>Fecha fin para entrenamiento:</td>
               <td>
-                <input type="text" class="input_text" name="anyadir_entrena_fin" value="AAAA-MM-DD" onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
+                <input type="date" class="input_text" name="anyadir_entrena_fin" value="AAAA-MM-DD" onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
               </td>
             </tr>
           </table>

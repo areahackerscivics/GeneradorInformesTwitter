@@ -189,9 +189,15 @@ def clasificar_enviar():
 def borrarClasificador():
     nombre = bottle.request.forms.get('borrar_nombre')
 
-    eliminarClasificador(nombre)
+    try:
+        eliminarClasificador(nombre)
+    except OSError as error:
+        bottle.redirect('/error?msj='+error+'&page=ListarClasificadores')
+    except Exception as error:
+        bottle.redirect('/error?msj='+error+'&page=ListarClasificadores')
 
     bottle.redirect("/ListarClasificadores")
+
 
 @bottle.post('/Anyadir')
 def anyadirClasificador():
@@ -213,6 +219,15 @@ def listar_clasificadores():
 
 
 # ==================== FIN ADMINISTRAR CLASIFICADORES ==========================
+
+
+@route('/error')
+def display_error():
+    mensajeError = request.query.msj
+    pagina = request.query.page
+    return template('error', error=mensajeError, pagina=pagina)
+
+
 
 @bottle.route('/css/:filename', name='css')
 def staticCSS(filename):
