@@ -47,7 +47,7 @@ def addClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin):
                 'entrena_ini': desde,
                 'entrena_fin': hasta,
                 'fecha_creacion': datetime.now(),
-                'predeterminado': 'false'
+                'predeterminado': False
     }
 
     conexion = getConexion()

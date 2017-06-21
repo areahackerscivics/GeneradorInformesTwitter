@@ -7,11 +7,12 @@
     <script type="text/javascript" src="/js/error.js"></script>
   </head>
   <body>
-
-    <form name="error" action="/Anyadir" method="POST">
+    % mensaje = error
+    % pagina = '/' + pagina
+    <form name="error" action="{{pagina}}" method="GET">
 
       <h1>
-        
+        {{mensaje}}
       </h1>
 
       <input type="submit" value="Ok" />

@@ -10,6 +10,7 @@ path= os.path.dirname(parent_dir)
 sys.path.append(path)
 
 import bottle
+from bottle import route, request, response, template
 
 from BLL.revisionBLL import *
 from BLL.metricaBLL import *
@@ -192,9 +193,9 @@ def borrarClasificador():
     try:
         eliminarClasificador(nombre)
     except OSError as error:
-        bottle.redirect('/error?msj='+error+'&page=ListarClasificadores')
+        bottle.redirect('/error?msj='+ str(error) +'&page=ListarClasificadores')
     except Exception as error:
-        bottle.redirect('/error?msj='+error+'&page=ListarClasificadores')
+        bottle.redirect('/error?msj='+ str(error) +'&page=ListarClasificadores')
 
     bottle.redirect("/ListarClasificadores")
 
