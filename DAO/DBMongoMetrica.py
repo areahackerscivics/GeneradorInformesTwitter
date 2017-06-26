@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-#import jsonpickle
-#import tweepy
+
 import random
-#import datetime
 from datetime import datetime
 import math
 from pymongo import MongoClient#Libreria Mongodb
 
+#REAL
 from conexionMongo import *
 
 #Conexion a MongoDB
@@ -106,15 +105,12 @@ def leer_CalculoxEstado(fechaini,fechafin):
         R.append(RP)
         C.append(CP)
         SubTC.append(TC)
-
-    #print 'TOTALES:', TT, RT, CT, DT
      #-----------------Los Porcentajes Totales-----------------------------------
     if TT!=0:
         RTP=round((float(RT)/float(TT)),2)*100#Calcula el porcentaje de Reentrenados por Categoría
         DTP=round((float(DT)/float(TT)),2)*100#Calcula el porcentaje de Desechados por Categoría
         CTP=round((float(CT)/float(TT)),2)*100#Calcula el porcentaje de Correctos por Categoría
     else:
-        print "tt=0"
         RTP=0
         DTP=0
         CTP=0
@@ -127,7 +123,3 @@ def leer_CalculoxEstado(fechaini,fechafin):
 
     return categoria,D,R,C,SubTC,Total,TotalR,TotalD,TotalC
 
-def histograma():
-    cont=tweetsdb.find({}).count()
-    logaritmo=math.log10(cont)
-    K=1+3.3*(math.log10(cont))#Intervalos de clase

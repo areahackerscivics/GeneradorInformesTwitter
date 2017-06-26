@@ -1,63 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<title>Métricas de la Revision</title>
-<style type="text/css">
-div#paginacion {
-  border: 1px solid #CCC;
-  padding: .5em;
-}
-.derecha {
-  float: right;
-}
-.izquierda {
-  float: left;
-}
-div.clear {
-  clear: both;
-}
-</style>
-<link rel="stylesheet" type="text/css" href="/css/main.css">
-<meta charset="utf-8" />
-</head>
-<body>
-<p>
-<ul>
-<li class="dropdown">
-<a href="javascript:void(0)" class="dropbtn">Administrar</a>
-<div class="dropdown-content">
-      <a href="/clasificar">Clasificación</a>
-      <a href="/ListarClasificadores">Clasificadores</a>
-</div>
-</li>
-<li class="dropdown">
-<a href="javascript:void(0)" class="dropbtn">Revisar</a>
-<div class="dropdown-content">
-      <a href="/revision">Revision por Categoría</a>
-      <a href="/metrica">Métricas</a>
-</div>
-</li>
-<li class="dropdown">
-<a href="javascript:void(0)" class="dropbtn">Reporte</a>
-<div class="dropdown-content">
-      <a href="#">Reporte 1</a>
-</div>
-</li>
-</ul>
-	<form method="post" action="/metrica">
+% include('menu.tpl', title='Métrica')
+	<form method="post" action="/Metrica">
 	%fechaini=dict['fechaini']
 	%fechafin=dict['fechafin']
 	<table style="estilo"align="center">
 	<tr>
 		<td><strong>Fecha Inicio</strong></td>
 		<td><strong>Fecha Fin</strong></td>
-		<td></td>
+		<td></td>	
 	</tr>
 	<tr>
 		<td><input type="date" name="FechaInicio" value={{fechaini}}></td>
 		<td><input type="date" name="FechaFin" value={{fechafin}}></td>
 		<td><input type="submit" class="estilo2" value="Listar"></td>
-		</form>
+		</form>		
 	</tr>
 	</table>
 <script src="/js/Chart.js"></script>
@@ -169,15 +126,15 @@ var pie = new d3pie("pieChart", {
 	</tr>
 	% for i in range(len(dict['cat'])):
 		<tr>
-		<td>{{dict['cat'][i]}}</td>
+		<td>{{dict['cat'][i]}}</td> 
 		<td>{{dict['D'][i]}}</td>
 		<td>{{dict['R'][i]}}</td>
 		<td>{{dict['C'][i]}}</td>
 		<td>{{dict['SubTC'][i]}}</td>
-		</tr>
+		</tr>		
 	% end
 </table>
- </div>
+ </div> 
  </div>
 </body>
 </html>

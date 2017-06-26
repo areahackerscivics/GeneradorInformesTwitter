@@ -13,16 +13,25 @@ parent_dir=os.getcwd()
 path= os.path.dirname(parent_dir)
 path2=path+"\DAO\input\\"
 
-#Conexion a MongoDB
-cliente = MongoClient()#Inicializar objeto
-cliente = MongoClient('127.0.0.1', 27017)#Indicar parametros del servidor
-bd = cliente.twitter#Seleccionar Schema #1
-tweetsdb = bd.Entrenado#Seleccionar Coleccion #1
 
+#REAL
+from conexionMongo import *
+
+#Conexion a MongoDB
+conexion = getConexion()
+client = MongoClient(conexion)
+tdb = getDB()
+db = client[tdb]
+coleccion = getCollEntrenado()
+tweetsdb = db[coleccion]
+
+#Declaración de variables
 dfile="DataTodo.csv"
+today=datetime.now()
+
+
 def guardar_DataArchivo(dfile):
     datafile = os.path.join(path2,dfile)
-    today=datetime.now()
     """lee un archivo csv.
              Args:
             texto (list): Se espera una lista de N textos que estan en la 3ra posicion del archivo csv.
@@ -55,14 +64,14 @@ def leer_textoentrenado():
     return categoria,texto
     print ' Los tweets han sido cargados'
 
-def guardar_textoreentrenado(texto,categoria,idt):
-    today=datetime.now()
+def guardar_textoreentrenado(texto,categoria,idt, fechat):
     guardar={
         "idt":idt,
         "categoria":categoria,
         "texto":texto,
         "fecha":today,
-        "reentreno":True
+        "reentreno":True,
+        "fechaTweet":fechat
         };
     try:
         tweetsdb.insert_one(guardar)#Almacenar #1
