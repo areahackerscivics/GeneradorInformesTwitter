@@ -95,9 +95,16 @@ def metrica_revisionListar():
     fechaini= bottle.request.forms.get("FechaInicio")
     fechafin=bottle.request.forms.get("FechaFin")
 
-    #el resultado se guarda en un diccionario y se envia de vuelta a la página
-    dicc = leer_CalculoxEstadoBLL(fechaini,fechafin)
-    return bottle.template('metrica',dict=dicc)
+    print fechaini, fechafin
+
+    try:
+        #el resultado se guarda en un diccionario y se envia de vuelta a la página
+        dicc = leer_CalculoxEstadoBLL(fechaini,fechafin)
+        return bottle.template('metrica',dict=dicc)
+    except OSError as error:
+        bottle.redirect('/error?msj='+ str(error) +'&page=metrica')
+    except Exception as error:
+        bottle.redirect('/error?msj='+ str(error) +'&page=metrica')
 
 # ==================== FIN ESTADISTICA REVISION MANUAL ==========================
 
