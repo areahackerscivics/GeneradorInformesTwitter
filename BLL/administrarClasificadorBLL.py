@@ -17,9 +17,33 @@ from sklearn.linear_model import SGDClassifier
 
 from DAO.administrarClasificadoresDAO import *
 from UTIL.tweetsToData import transform
+from UTIL.tweetsToText import *
 
 import multiprocessing
 
+
+def reentrenarClasificadorBLL(nombre, entrena_ini, entrena_fin):
+    tweets = getTweetsClasificados(entrena_ini, entrena_fin)
+
+    data, labels = transform(tweets, nombre)
+
+    #nombre = getClasiDefecto()
+
+    nCores = multiprocessing.cpu_count()
+
+    with open('../MODELOS/'+ nombre +'.pickle', 'rb') as input_file:
+         clasificador = pickle.load(input_file)
+
+    scores = cross_val_score(clasificador, data, labels, cv=4, n_jobs=nCores)
+    accMedio = scores.mean()
+    desviacion = scores.std() * 2
+
+    clasificador = clasificador.partial_fit(data, labels)
+
+    with open('../MODELOS/'+ nombre +'.pickle', 'wb') as handle:
+        pickle.dump(clasificador, handle)
+
+    updateClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin)
 
 
 def crearClasificador(nombre, entrena_ini, entrena_fin):
@@ -27,7 +51,11 @@ def crearClasificador(nombre, entrena_ini, entrena_fin):
     #Llamar a DAO para conseguir los Tweets
     tweets = getTweetsClasificados(entrena_ini, entrena_fin)
 
-    data, labels, vectorizer = transform(tweets)
+    #data, labels, vectorizer = transform(tweets)
+
+    textos, labels = transTwToTxt(tweets)
+
+    data = vectorizar(textos, nombre)
 
     nCores = multiprocessing.cpu_count()
 
@@ -39,18 +67,13 @@ def crearClasificador(nombre, entrena_ini, entrena_fin):
 
     print 'Entrenando el modelo...'
     X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.25, random_state=0, stratify=labels)
-    clasificador = SGDClassifier(loss='hinge', n_iter=100)
+    clasificador = SGDClassifier(loss='hinge', n_iter=100, n_jobs=nCores)
     clasificador = clasificador.fit(X_train, y_train)
 
     print 'Almacenando modelo en /MODELOS/' + nombre + '.pickle'
     with open('../MODELOS/'+ nombre +'.pickle', 'wb') as handle:
         pickle.dump(clasificador, handle)
-    handle.close()
 
-    print 'Almacenando vectorizer en /VECTORIZER/vectorizer_'+ nombre +'.pickle'
-    with open('../VECTORIZER/vectorizer_'+ nombre +'.pickle', 'wb') as handle:
-        pickle.dump(vectorizer, handle)
-    handle.close()
 
     #Llamar a DAO para que guarde el nombre, ACC, DESV
     addClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin)

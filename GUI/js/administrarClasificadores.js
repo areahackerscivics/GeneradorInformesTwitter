@@ -28,4 +28,5 @@ function seleccionarFila(elem){
   var nombre = elem.cells[0].innerHTML;
   nombre = nombre.replace(/\s+/g,"")
   document.getElementById('inpBorrar').value = nombre;
+  document.getElementById('inpReentrenar').value = nombre;
 }
