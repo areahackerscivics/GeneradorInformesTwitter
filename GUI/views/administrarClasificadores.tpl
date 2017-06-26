@@ -142,7 +142,30 @@
         No disponible
       </div>
       <div id="reentrenar">
-        No disponible
+        <form name="reentrenar" action="/Reentrenar" method="POST">
+          <table>
+            <tr>
+              <td>Nombre:</td>
+              <td>
+                <input type="text" id="inpReentrenar" name="reentrenar_nombre" >
+              </td>
+            </tr>
+            <tr>
+              <td>Fecha inicio para entrenamiento:</td>
+              <td>
+                <input type="date" class="input_text" name="reentrenar_entrena_ini" value="AAAA-MM-DD" onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
+              </td>
+            </tr>
+            <tr>
+              <td>Fecha fin para entrenamiento:</td>
+              <td>
+                <input type="date" class="input_text" name="reentrenar_entrena_fin" value="AAAA-MM-DD" onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
+              </td>
+            </tr>
+          </table>
+
+          <input type="submit" value="Enviar" />
+        </form>
       </div>
     </div>
   </body>
