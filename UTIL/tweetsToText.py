@@ -15,7 +15,7 @@ def transTwToTxt(listaTweets):
     textos = []
     for tw in listaTweets:
 
-        etiqueta = tw['categoria']
+        etiqueta = tw['categoria'].encode('UTF-8')
 
         if etiqueta == 'Ciencia y tecnología':
             etq = 0
