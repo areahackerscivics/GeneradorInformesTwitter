@@ -128,10 +128,7 @@ def normalizar_corpus(corpus):
         """
     corpus_normalizado = []
     for texto in corpus:
-        print '\n------------------------------------'
-        print texto
-        print '--------------------------------------\n'
-        #texto=texto.decode('utf-8')
+        texto=texto.decode('utf-8')
         texto = expandir_contracciones(texto, CONTRACCION_MAPA)
         #texto = eliminar_palabras(texto, eliminarPalabras)
         texto = eliminar_caracteres_especiales(texto)

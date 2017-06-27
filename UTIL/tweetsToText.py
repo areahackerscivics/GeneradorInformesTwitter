@@ -14,8 +14,7 @@ def transTwToTxt(listaTweets):
     labels = []
     textos = []
     for tw in listaTweets:
-
-        etiqueta = tw['categoria']
+        etiqueta = (str(tw['categoria'].encode('utf-8')))
 
         if etiqueta == 'Ciencia y tecnología':
             etq = 0
@@ -65,9 +64,17 @@ def transTwToTxt(listaTweets):
 
         labels.append(etq)
 
-        texto = tw['texto']
+        texto = (str(tw['texto'].encode('utf-8')))
+
 
         textos.append(texto)
 
 
     return textos, labels
+
+def transTwToTxtClas(listaTweets):
+    textos = []
+    for tw in listaTweets:
+        texto = tw['texto']
+        textos.append(texto)
+    return textos

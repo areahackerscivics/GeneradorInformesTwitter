@@ -53,24 +53,11 @@ def vectorizar(textos, nombre):
     return data
 
 def transformar(textos, nombre):
-    #nombre = getClasiDefecto()
-
-    print '\n=========== ANTES DEL LOAD =================\n'
-
+    textosNormalizados = normalizar_corpus(textos)
     with open('../VECTORIZER/vectorizer_'+ nombre +'.pickle', "rb") as input_file:
         vectorizador = pickle.load(input_file)
 
-    print '\n=========== DESPUES DEL LOAD =================\n'
-
-    #vectorizador.preprocessor = preprocesador
-    #vectorizador.tokenizer = tokenizador
-
-    print '\n\n\n\n'
-    print 'Vectorizador:'
-    print vectorizador
-    print '\n\n\n\n'
-
-    data = vectorizador.transform(textos)
+    data = vectorizador.transform(textosNormalizados)
     data = data.toarray()
 
     return data

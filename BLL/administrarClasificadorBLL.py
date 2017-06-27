@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# encoding: utf-8
 import sys, os
 import numpy as np
 import datetime
@@ -50,18 +52,23 @@ def crearClasificador(nombre, entrena_ini, entrena_fin):
 
     #Llamar a DAO para conseguir los Tweets
     tweets = getTweetsClasificados(entrena_ini, entrena_fin)
-
+    #textos, labels =getTweetsClasificadosMM(entrena_ini, entrena_fin) #MM
+    print 'fin extracción DB'
     #data, labels, vectorizer = transform(tweets)
 
     textos, labels = transTwToTxt(tweets)
 
     data = vectorizar(textos, nombre)
+    print 'fin vectorizador'
 
     nCores = multiprocessing.cpu_count()
+    print 'fin multiproceso'
 
     print 'Calculando la precision de ' + nombre + ' desde ' + entrena_ini + ' hasta ' + entrena_fin
     clasificador = SGDClassifier(loss='hinge', n_iter=100)
+    print 'fin clasificador'
     scores = cross_val_score(clasificador, data, labels, cv=4, n_jobs=nCores)
+    print 'fin scores'
     accMedio = scores.mean()
     desviacion = scores.std() * 2
 

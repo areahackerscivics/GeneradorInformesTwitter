@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# encoding: utf-8
 import sys, os
 import numpy as np
 parent_dir=os.getcwd()
@@ -11,6 +13,8 @@ from datetime import datetime
 import dateutil.parser
 
 def getTweetsClasificados(entrena_ini, entrena_fin):
+    desde=datetime.strptime(entrena_ini,"%Y-%m-%d")#MM
+    hasta=datetime.strptime(entrena_fin,"%Y-%m-%d")#MM
 
     conexion = getConexion()
     client = MongoClient(conexion)
@@ -19,26 +23,49 @@ def getTweetsClasificados(entrena_ini, entrena_fin):
     coleccion = getCollEntrenado()
     tweetsEntrenados = db[coleccion]
 
-    desde = entrena_ini + 'T00:00:00.000Z'
-    desde = dateutil.parser.parse(desde)
-    hasta = entrena_fin + 'T23:59:59.999Z'
-    hasta = dateutil.parser.parse(hasta)
+    # desde = entrena_ini + 'T00:00:00.000Z'
+    # desde = dateutil.parser.parse(desde)
+    # hasta = entrena_fin + 'T23:59:59.999Z'
+    # hasta = dateutil.parser.parse(hasta)
 
     tw = tweetsEntrenados.find({
                                         'fechaTweet':{
-                                            '$gte': desde,
+                                            '$gt': desde,
                                             '$lt':  hasta
                                         }
                                     })
 
     return list(tw)
 
+def getTweetsClasificadosMM(fechaini,fechafin):
+
+    conexion = getConexion()
+    client = MongoClient(conexion)
+    tdb = getDB()
+    db = client[tdb]
+    coleccion = getCollEntrenado()
+    tweetsEntrenados = db[coleccion]
+
+    #idt=[]
+    texto=[]
+    categoria=[]
+    fechaini=datetime.strptime(fechaini,"%Y-%m-%d")
+    fechafin=datetime.strptime(fechafin,"%Y-%m-%d")
+    #for text in tweetsdb.find({"idioma":"es","consulta": "@AjuntamentVLC", "fechaDescarga":"22-03-17"},{"idt":1,"tweet":1,"_id":0}) :
+    for text in tweetsEntrenados.find({"fechaTweet":{ "$gt" :fechaini ,"$lt" :fechafin}},{"categoria":1,"texto":1,"_id":0}) :
+        categoria.append(str(text['categoria'].encode('utf-8')))
+        texto.append(str(text['texto'].encode('utf-8')))
+
+    return texto,categoria
+
 def addClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin):
 
-    desde = entrena_ini + 'T00:00:00.000Z'
-    desde = dateutil.parser.parse(desde)
-    hasta = entrena_fin + 'T23:59:59.999Z'
-    hasta = dateutil.parser.parse(hasta)
+    #desde = entrena_ini + 'T00:00:00.000Z'
+    #desde = dateutil.parser.parse(desde)
+    #hasta = entrena_fin + 'T23:59:59.999Z'
+    #hasta = dateutil.parser.parse(hasta)
+    desde=datetime.strptime(entrena_ini,"%Y-%m-%d")#MM
+    hasta=datetime.strptime(entrena_fin,"%Y-%m-%d")#MM
 
     modelo = {
                 'nombre': nombre,
@@ -95,7 +122,7 @@ def getClasiDefecto():
     cursor = db[coleccion]
     clasificador = cursor.find({
                                         'predeterminado': True
-                                    })
+                                    }).limit(1)
 
     return ((list(clasificador))[0])['nombre']
 

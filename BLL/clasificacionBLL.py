@@ -23,17 +23,18 @@ def generar_clasificacionBLL(fechaini,fechafin):
         fechafin= "2017-05-01"
     idt,corpus,fechaTweet =leer(fechaini,fechafin)
     if len(idt)>0:
-        print 'Se han leido los Registros...'
-        #2--------------Hacer el tratamiento de las palabras del corpus----------------------
-        norm_corpus = normalizar_corpus(corpus)
-        print 'Se han normalizado los textos'
-        #3--------------Cargando el vector y el clasificador------------------------
-        #CONSULTAR EN BASE DE DATOS EL NOMBRE DEL VECTORIZADOR (DAO)
-        nombre="vector"
-        tfidf_vectorizar=leer_Pickle('../VECTORIZER/'+ nombre +'.pickle')
-
+        # print 'Se han leido los Registros...'
+        # #2--------------Hacer el tratamiento de las palabras del corpus----------------------
+        # norm_corpus = normalizar_corpus(corpus)
+        # print 'Se han normalizado los textos'
+        # #3--------------Cargando el vector y el clasificador------------------------
+        # #CONSULTAR EN BASE DE DATOS EL NOMBRE DEL VECTORIZADOR (DAO)
+        # nombre="vector"
+        # tfidf_vectorizar=leer_Pickle('../VECTORIZER/'+ nombre +'.pickle')
+                #
         #CONSULTAR EN BASE DE DATOS EL NOMBRE DEL CLASIFICADOR (DAO)
-        nombre="clasificador"
+        nombre=getClasiDefecto()
+        norm_corpus=transformClas(corpus,nombre)
         SGDtfidf=leer_Pickle('../MODELOS/'+ nombre +'.pickle')
 
         tfidf=tfidf_vectorizar.transform(norm_corpus)
@@ -43,7 +44,7 @@ def generar_clasificacionBLL(fechaini,fechafin):
         puntaje=SGDtfidf.decision_function(tfidf) #generando puntajes
         print 'Se ha usado el clasificador....'
         #4--------------------Guardar  en db Clasificador-------------------
-        guardar_textoclasificados(corpus,puntaje,clases,idt,fechaTweet)
+        #guardar_textoclasificados(corpus,puntaje,clases,idt,fechaTweet)
         dicc={"fechaini":fechaini, "fechafin":fechafin}
         return dicc
 

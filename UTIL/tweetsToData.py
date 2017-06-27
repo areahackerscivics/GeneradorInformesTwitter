@@ -21,3 +21,11 @@ def transform(listaTweets, nombre):
     data = transformar(textos, nombre)
 
     return data, labels
+
+def transformClas(listaTweets, nombre):
+
+    textos = transTwToTxtClas(listaTweets)
+
+    data = transformar(textos, nombre)
+
+    return data

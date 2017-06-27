@@ -110,13 +110,13 @@
             <tr>
               <td>Fecha inicio para entrenamiento:</td>
               <td>
-                <input type="date" class="input_text" name="anyadir_entrena_ini" value="AAAA-MM-DD" onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
+                <input type="date" class="input_text" name="anyadir_entrena_ini"  onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
               </td>
             </tr>
             <tr>
               <td>Fecha fin para entrenamiento:</td>
               <td>
-                <input type="date" class="input_text" name="anyadir_entrena_fin" value="AAAA-MM-DD" onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
+                <input type="date" class="input_text" name="anyadir_entrena_fin"  onfocus="eliminarValorDefault(this)" onfocusout="anyadirValorDefault(this)">
               </td>
             </tr>
           </table>
