@@ -22,10 +22,14 @@ def leer(fechaini,fechafin):
     idt=[]
     tweet=[]
     fechaTweet=[]
-    fechaini=datetime.strptime(fechaini,"%Y-%m-%d")
-    fechafin=datetime.strptime(fechafin,"%Y-%m-%d")
+    fechaini = fechaini + ' 00:00:00'
+    fechaini=datetime.strptime(fechaini,"%Y-%m-%d %H:%M:%S")
+    fechafin = fechafin + ' 23:59:59'
+    fechafin=datetime.strptime(fechafin,"%Y-%m-%d %H:%M:%S")
+    # fechaini=datetime.strptime(fechaini,"%Y-%m-%d")
+    # fechafin=datetime.strptime(fechafin,"%Y-%m-%d")
     #for text in tweetsdb.find({"idioma":"es","consulta": "@AjuntamentVLC", "fechaDescarga":"22-03-17"},{"idt":1,"tweet":1,"_id":0}) :
-    for text in tweetsdb.find({"idioma":"es","consulta": "@AjuntamentVLC", "fechaTweet":{ "$gt" :fechaini ,"$lt" :fechafin}},{"idt":1,"tweet":1,"fechaTweet":1,"_id":0}) :
+    for text in tweetsdb.find({"idioma":"es","consulta": "@AjuntamentVLC", "fechaTweet":{ "$gte" :fechaini ,"$lt" :fechafin}},{"idt":1,"tweet":1,"fechaTweet":1,"_id":0}) :
         idt.append(str(text['idt']))
         tweet.append(str(text['tweet'].encode('utf-8')))
         fechaTweet.append(text['fechaTweet'])
@@ -42,4 +46,3 @@ def leer_AgrupadoxfechaTW():#para la ventana Clasificar
     for text in tweetsdb.aggregate(pipeline):
         dicc[text['fechaTweet']]=text['Total_Tweets']
     return dicc
-    

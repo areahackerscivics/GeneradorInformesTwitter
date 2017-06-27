@@ -20,8 +20,10 @@ tweetsdb = db[coleccion]
 
 
 def leer_CalculoxEstado(fechaini,fechafin):
-    fechaini=datetime.strptime(fechaini,"%Y-%m-%d")
-    fechafin=datetime.strptime(fechafin,"%Y-%m-%d")
+    fechaini = fechaini + ' 00:00:00'
+    fechaini=datetime.strptime(fechaini,"%Y-%m-%d %H:%M:%S")
+    fechafin = fechafin + ' 23:59:59'
+    fechafin=datetime.strptime(fechafin,"%Y-%m-%d %H:%M:%S")
     pipeline=[
         {"$match":{"estado": {"$exists":True},"fecha":{ "$gt" :fechaini ,"$lt" :fechafin}}},
         {"$group":{"_id":{"categoria":"$categoria","estado":"$estado"},
@@ -122,4 +124,3 @@ def leer_CalculoxEstado(fechaini,fechafin):
     TotalC.append(CTP)
 
     return categoria,D,R,C,SubTC,Total,TotalR,TotalD,TotalC
-

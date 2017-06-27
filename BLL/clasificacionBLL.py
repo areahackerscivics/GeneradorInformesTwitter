@@ -11,6 +11,8 @@ sys.path.append(path)
 import operator
 from DAO.DBMongoTweet import *
 from DAO.DBMongoClasificado import *
+from DAO.administrarClasificadoresDAO import *
+from UTIL.vectorizador import *
 from UTIL.procesopickle import *
 from UTIL.normalizacion import *
 
@@ -23,28 +25,18 @@ def generar_clasificacionBLL(fechaini,fechafin):
         fechafin= "2017-05-01"
     idt,corpus,fechaTweet =leer(fechaini,fechafin)
     if len(idt)>0:
-        # print 'Se han leido los Registros...'
-        # #2--------------Hacer el tratamiento de las palabras del corpus----------------------
-        # norm_corpus = normalizar_corpus(corpus)
-        # print 'Se han normalizado los textos'
-        # #3--------------Cargando el vector y el clasificador------------------------
-        # #CONSULTAR EN BASE DE DATOS EL NOMBRE DEL VECTORIZADOR (DAO)
-        # nombre="vector"
-        # tfidf_vectorizar=leer_Pickle('../VECTORIZER/'+ nombre +'.pickle')
-                #
         #CONSULTAR EN BASE DE DATOS EL NOMBRE DEL CLASIFICADOR (DAO)
         nombre=getClasiDefecto()
-        norm_corpus=transformClas(corpus,nombre)
+        tfidf=transformar(corpus,nombre)
         SGDtfidf=leer_Pickle('../MODELOS/'+ nombre +'.pickle')
 
-        tfidf=tfidf_vectorizar.transform(norm_corpus)
         print 'Se ha usado el vectorizador....'
         clases=SGDtfidf.classes_ #generando las clases
         #CONSULTAR EN BASE DE DATOS EL NOMBRE DEL CLASIFICADOR (DAO)
         puntaje=SGDtfidf.decision_function(tfidf) #generando puntajes
         print 'Se ha usado el clasificador....'
         #4--------------------Guardar  en db Clasificador-------------------
-        #guardar_textoclasificados(corpus,puntaje,clases,idt,fechaTweet)
+        guardar_textoclasificados(corpus,puntaje,clases,idt,fechaTweet)
         dicc={"fechaini":fechaini, "fechafin":fechafin}
         return dicc
 

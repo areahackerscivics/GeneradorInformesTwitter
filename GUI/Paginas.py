@@ -112,7 +112,6 @@ def metrica_revisionListar():
 @bottle.get('/clasificar')
 def clasificar_inicio():
     dicc=generar_tabla()
-    print 'get',dicc
     return bottle.template('clasificar',dict=dicc)
 
 @bottle.post('/clasificar')
@@ -122,7 +121,6 @@ def clasificar_enviar():
     fechafin=bottle.request.forms.get("FechaFin")
     generar_clasificacionBLL(fechaini,fechafin)
     dicc=generar_tabla()
-    print 'post',dicc
     return bottle.template('clasificar',dict=dicc)
 
 # ====================  ADMINISTRAR CLASIFICADORES =============================

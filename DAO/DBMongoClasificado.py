@@ -4,6 +4,7 @@
 import random
 from datetime import datetime
 from pymongo import MongoClient#Libreria Mongodb
+from UTIL.tweetsToText import convNumToNom
 
 #REAL
 from conexionMongo import *
@@ -32,12 +33,14 @@ def actualizar_textoclasificados(idt,estado):
         print "No se pudo actualizar"
 
 def guardar_textoclasificados(corpus,puntaje,clases,idt,fechaTweet):
-    y_pred=[]
+    #y_pred=[]
     for i in range(len(corpus)):
         lista= sorted(zip(puntaje[i],  clases), reverse=True)
-        y_pred.append(lista[0][1])#lista de las categorias predicas, acertadas y erradas
+        categoria=convNumToNom(lista[0][1])
+        #y_pred.append(lista[0][1])#lista de las categorias predicas, acertadas y erradas
         guardar={
-            "categoria":lista[0][1].decode('utf-8'),
+            "categoria":categoria.decode('utf-8'),#Pru
+            #"categoria":lista[0][1].decode('utf-8'),
             "puntaje":lista[0][0],
             "idt":idt[i], #1
             "texto":corpus[i].decode('utf-8'),
@@ -52,9 +55,13 @@ def guardar_textoclasificados(corpus,puntaje,clases,idt,fechaTweet):
 
 
 def leer_ClasificadosconEstado(cat, fechaini, fechafin):
-    fechaini=datetime.strptime(fechaini,"%Y-%m-%d")
-    fechafin=datetime.strptime(fechafin,"%Y-%m-%d")
-    reentre= tweetsdb.find({"estado": {"$exists":True},"categoria":cat,"fecha":{ "$gt" :fechaini ,"$lt" :fechafin}}).count()
+    fechaini = fechaini + ' 00:00:00'
+    fechaini=datetime.strptime(fechaini,"%Y-%m-%d %H:%M:%S")
+    fechafin = fechafin + ' 23:59:59'
+    fechafin=datetime.strptime(fechafin,"%Y-%m-%d %H:%M:%S")
+    # fechaini=datetime.strptime(fechaini,"%Y-%m-%d")
+    # fechafin=datetime.strptime(fechafin,"%Y-%m-%d")
+    reentre= tweetsdb.find({"estado": {"$exists":True},"categoria":cat,"fecha":{ "$gte" :fechaini ,"$lt" :fechafin}}).count()
     return reentre
 
 def leer_textoclasificadoUno():
@@ -74,9 +81,13 @@ def leer_textoclasificadoTodo(cat, num, fechaini, fechafin):#para la ventana Rev
     categoria=[]
     texto=[]
     fechaTweet=[]
-    fechaini=datetime.strptime(fechaini,"%Y-%m-%d")
-    fechafin=datetime.strptime(fechafin,"%Y-%m-%d")
-    for text in tweetsdb.find({"estado": {"$exists":False},"categoria":cat,"fecha":{ "$gt" :fechaini ,"$lt" :fechafin}},
+    fechaini = fechaini + ' 00:00:00'
+    fechaini=datetime.strptime(fechaini,"%Y-%m-%d %H:%M:%S")
+    fechafin = fechafin + ' 23:59:59'
+    fechafin=datetime.strptime(fechafin,"%Y-%m-%d %H:%M:%S")
+    # fechaini=datetime.strptime(fechaini,"%Y-%m-%d")
+    # fechafin=datetime.strptime(fechafin,"%Y-%m-%d")
+    for text in tweetsdb.find({"estado": {"$exists":False},"categoria":cat,"fecha":{ "$gte" :fechaini ,"$lt" :fechafin}},
                               {"idt":1,"categoria":1,"texto":1,"fechaTweet":1,"_id":0}).limit(int(num)):
         idt.append(str(text['idt']))
         categoria.append(str(text['categoria'].encode('utf-8')))
