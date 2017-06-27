@@ -13,8 +13,6 @@ from datetime import datetime
 import dateutil.parser
 
 def getTweetsClasificados(entrena_ini, entrena_fin):
-    desde=datetime.strptime(entrena_ini,"%Y-%m-%d")#MM
-    hasta=datetime.strptime(entrena_fin,"%Y-%m-%d")#MM
 
     conexion = getConexion()
     client = MongoClient(conexion)
@@ -23,15 +21,16 @@ def getTweetsClasificados(entrena_ini, entrena_fin):
     coleccion = getCollEntrenado()
     tweetsEntrenados = db[coleccion]
 
-    # desde = entrena_ini + 'T00:00:00.000Z'
-    # desde = dateutil.parser.parse(desde)
-    # hasta = entrena_fin + 'T23:59:59.999Z'
-    # hasta = dateutil.parser.parse(hasta)
+    entrena_ini = entrena_ini + ' 00:00:00'
+    entrena_ini=datetime.strptime(entrena_ini,"%Y-%m-%d %H:%M:%S")
+
+    entrena_fin = entrena_fin + ' 23:59:59'
+    entrena_fin=datetime.strptime(entrena_fin,"%Y-%m-%d %H:%M:%S")
 
     tw = tweetsEntrenados.find({
                                         'fechaTweet':{
-                                            '$gt': desde,
-                                            '$lt':  hasta
+                                            '$gte': entrena_ini,
+                                            '$lt':  entrena_fin
                                         }
                                     })
 
@@ -60,19 +59,18 @@ def getTweetsClasificadosMM(fechaini,fechafin):
 
 def addClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin):
 
-    #desde = entrena_ini + 'T00:00:00.000Z'
-    #desde = dateutil.parser.parse(desde)
-    #hasta = entrena_fin + 'T23:59:59.999Z'
-    #hasta = dateutil.parser.parse(hasta)
-    desde=datetime.strptime(entrena_ini,"%Y-%m-%d")#MM
-    hasta=datetime.strptime(entrena_fin,"%Y-%m-%d")#MM
+    entrena_ini = entrena_ini + ' 00:00:00'
+    entrena_ini=datetime.strptime(entrena_ini,"%Y-%m-%d %H:%M:%S")
+
+    entrena_fin = entrena_fin + ' 23:59:59'
+    entrena_fin=datetime.strptime(entrena_fin,"%Y-%m-%d %H:%M:%S")
 
     modelo = {
                 'nombre': nombre,
                 'accuracy': accMedio,
                 'desviacion': desviacion,
-                'entrena_ini': desde,
-                'entrena_fin': hasta,
+                'entrena_ini': entrena_ini,
+                'entrena_fin': entrena_fin,
                 'fecha_creacion': datetime.now(),
                 'predeterminado': False
     }
@@ -129,10 +127,10 @@ def getClasiDefecto():
 
 def updateClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin):
 
-    desde = entrena_ini + 'T00:00:00.000Z'
-    desde = dateutil.parser.parse(desde)
-    hasta = entrena_fin + 'T23:59:59.999Z'
-    hasta = dateutil.parser.parse(hasta)
+    entrena_ini = entrena_ini + ' 00:00:00'
+    entrena_ini=datetime.strptime(entrena_ini,"%Y-%m-%d %H:%M:%S")
+    entrena_fin = entrena_fin + ' 23:59:59'
+    entrena_fin=datetime.strptime(entrena_fin,"%Y-%m-%d %H:%M:%S")
 
     conexion = getConexion()
     client = MongoClient(conexion)
@@ -150,8 +148,8 @@ def updateClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin):
                             {'$set':{
                                 'accuracy': accMedio,
                                 'desviacion': desviacion,
-                                'entrena_ini': desde,
-                                'entrena_fin': hasta,
+                                'entrena_ini': entrena_ini,
+                                'entrena_fin': entrena_fin,
                                 'fecha_creacion': datetime.now()
                                 }
                             }
