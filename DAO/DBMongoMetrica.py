@@ -122,5 +122,8 @@ def leer_CalculoxEstado(fechaini,fechafin):
     TotalR.append(RTP)
     TotalD.append(DTP)
     TotalC.append(CTP)
-
-    return categoria,D,R,C,SubTC,Total,TotalR,TotalD,TotalC
+    dicc={"cat":categoria,"D":D, "R":R, "C":C,"SubTC":SubTC,"Total":Total,"TotalR":TotalR,"TotalD":TotalD,"TotalC":TotalC,"fechaini":fechaini, "fechafin":fechafin}
+    if len(dicc)>0:#validación
+        return dicc
+    else:
+        return {}

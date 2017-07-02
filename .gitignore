@@ -9,4 +9,12 @@
 
 *.xls
 
+*.bson
+
+*.json
+
+credencialesTwitter.py
+
+archivocsv.py
+
 conexionMongo.py

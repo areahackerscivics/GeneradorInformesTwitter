@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# encoding: utf-8
 import sys, os
 import numpy as np
 import datetime
@@ -15,8 +17,9 @@ def leer_CalculoxEstadoBLL(fechaini,fechafin):
     if fechafin==None:
         fechafin= "2017-05-01"
 
-    cat,D,R,C,SubTC,Total,TotalR,TotalD,TotalC =leer_CalculoxEstado(fechaini,fechafin)
+    dicc =leer_CalculoxEstado(fechaini,fechafin)#DBMongoMetrica
 
-    dicc={"cat":cat,"D":D, "R":R, "C":C,"SubTC":SubTC,"Total":Total,"TotalR":TotalR,"TotalD":TotalD,"TotalC":TotalC,"fechaini":fechaini, "fechafin":fechafin}
-
-    return dicc
+    if len(dicc)>0:#validación
+        return dicc
+    else:
+        return {}
