@@ -23,7 +23,7 @@ tdb = getDB()
 db = client[tdb]
 
 
-def leer(fechaTw):
+def leer(fechaTw):#modificado fecha_creacion
     """Método que permite leer  la colección de textos descargados de Twitter.
 
     Se  consulta la colección utilizando un find con varias condiciones, como son:
@@ -47,26 +47,26 @@ def leer(fechaTw):
     tweet=[]
     fechaTweet=[]
     pipeline=[{ "$match": { "idioma":"es","consulta": "@AjuntamentVLC"}},
-              {"$project": {"idt":1,"tweet":1,"_id":0,"fechaTweet":1,
+              {"$project": {"idt":1,"tweet":1,"_id":0,"fecha_creacion":1,
               "fechaTw":
-                        { "$dateToString": { "format": "%Y-%m", "date": "$fechaTweet" } }}},
+                        { "$dateToString": { "format": "%Y-%m", "date": "$fecha_creacion" } }}},
               { "$match": { "fechaTw":fechaTw} }]
     for text in tweetsdb.aggregate(pipeline):
         idt.append(str(text['idt']))
         tweet.append(str(text['tweet'].encode('utf-8')))
-        fechaTweet.append(text['fechaTweet'])
+        fechaTweet.append(text['fecha_creacion'])
     if len(idt)>0:
         return idt,tweet,fechaTweet
     else:
         return -1, -1, -1
 
-def leer_AgrupadoxfechaTW():#para la ventana Clasificar
+def leer_AgrupadoxfechaTW():#modificado fecha_creacion
     coleccion = getCollTweets()
     tweetsdb = db[coleccion]
     dicc={}
     pipeline=[{"$match":{"consulta": "@AjuntamentVLC", "idioma":"es",}},#cambiar por"es"
               {"$project": {"_id":0,
-                            "fechaTweet": { "$dateToString": { "format": "%Y-%m", "date": "$fechaTweet" } } }},
+                            "fechaTweet": { "$dateToString": { "format": "%Y-%m", "date": "$fecha_creacion" } } }},
               {"$group":{"_id":{"fechaTweet":"$fechaTweet"},"total":{"$sum":1}}},
               {"$project": {"_id":0,"fechaTweet":"$_id.fechaTweet", "Total_Tweets":"$total"}},
               {"$sort":{"fechaTweet":1}}]
@@ -78,7 +78,7 @@ def leer_AgrupadoxfechaTW():#para la ventana Clasificar
         return {}
 
 ############Con la data de clasificación#########################
-def leer_Agrupadoxfecha():
+def leer_Agrupadoxfecha():#modificado fecha_creacion=fechaTweet
     coleccion = getCollTweetsClas()
     tweetsdb = db[coleccion]
 

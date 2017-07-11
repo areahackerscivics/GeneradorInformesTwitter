@@ -13,7 +13,6 @@ from DAO.revisionDAO import *
 def leer_textoclasificadoTodoBLL(catnew, ntwets,fechaini,fechafin):#
     reentre=getreentre(catnew,fechaini,fechafin)#DBMongoClasificado
     idt,catold,tweet,fechaTweet = leer_textoclasificadoTodo(catnew, ntwets,fechaini,fechafin)#DBMongoClasificado
-    print 'leer',type(fechaTweet[0])
     if idt!=-1:#validación de vacion
         dicc={
             "idt":idt,"catold":catold,"tweet":tweet,"fechaTweet":fechaTweet,
