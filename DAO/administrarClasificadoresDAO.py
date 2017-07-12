@@ -125,6 +125,26 @@ def getClasiDefecto():
     return ((list(clasificador))[0])['nombre']
 
 
+def editarClasificadorDAO(nombreOri, nombreNuev):
+    conexion = getConexion()
+    client = MongoClient(conexion)
+    tdb = getDB()
+    db = client[tdb]
+
+    coleccion = getCollClasificadores()
+    cursor = db[coleccion]
+
+    clasificador =cursor.find_one({'nombre':nombreOri})
+    reg_id=clasificador['_id']
+
+    result = cursor.update_one(
+                            {'_id':reg_id},
+                            {'$set':{
+                                'nombre':nombreNuev
+                                }
+                            }
+    )
+
 def updateClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin):
 
     entrena_ini = entrena_ini + ' 00:00:00'

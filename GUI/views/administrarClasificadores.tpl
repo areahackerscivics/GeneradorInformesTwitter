@@ -139,7 +139,29 @@
         </form>
       </div>
       <div id="editar">
-        No disponible
+        <form name="editar" action="/Editar" method="POST">
+          <table>
+            <tr>
+              <td>Nombre:</td>
+              <td>
+                <input type="text" id="inpEditar" name="editar_nombre" >
+              </td>
+            </tr>
+            <tr>
+              <td>Nuevo nombre:</td>
+              <td>
+                <input type="text" name="editar_nombre_nuevo" >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="editar_predeterminado">¿Utilizar como predeterminado?<br>
+              </td>
+            </tr>
+          </table>
+
+          <input type="submit" value="Enviar" />
+        </form>
       </div>
       <div id="reentrenar">
         <form name="reentrenar" action="/Reentrenar" method="POST">

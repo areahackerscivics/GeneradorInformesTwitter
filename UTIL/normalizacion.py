@@ -17,6 +17,14 @@ from nltk.corpus import wordnet as wn
 stop_words = nltk.corpus.stopwords.words('spanish')#le indicamos el idioma
 stemmer = SnowballStemmer('spanish') #le indicamos el idioma
 
+import re
+from nltk.tokenize import RegexpTokenizer
+from stop_words import get_stop_words
+
+stopwords_cat = get_stop_words('catalan')
+palabrasIgnorar = ['ajuntamentvlc', 'http', 'https', 'www', 'i', 'q', 'd']
+
+stop_words = set(stop_words + stopwords_cat + palabrasIgnorar)
 
 def tokenizar_texto(texto):
     """a.Divide el texto en elemententos denominados tokens
@@ -26,9 +34,33 @@ def tokenizar_texto(texto):
         Res:
             palabras: lista que contiene cada una de los palabras que conforman el texto
         """
+    '''
     texto=texto.lower()
     palabras = nltk.word_tokenize(texto)
     return palabras
+    '''
+
+    pattern = r"((\b\w+((-|·|')\w+)+\b)|((?:^|(?<=\s))\w+(?=\s|$)))"
+    tokenizer = RegexpTokenizer(pattern)
+
+    texto = texto.strip()
+    texto = texto.strip('\n')
+
+    palabras = tokenizer.tokenize(texto.lower())
+
+    lista = []
+    for palabra in palabras:
+        lista.append(palabra[0])
+
+
+
+    print '\n'
+    print texto
+    print lista
+    print '\n'
+
+    return lista
+
 
 def expandir_contracciones(texto, contraccion_mapping):
     """b.Expande las palabras que tienen contracciones

@@ -10,7 +10,7 @@ sys.path.append(path)
 
 import pickle
 
-from sklearn.model_selection import train_test_split
+#from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 
 from sklearn.decomposition import PCA
@@ -23,6 +23,10 @@ from UTIL.tweetsToData import transform
 from UTIL.tweetsToText import *
 
 import multiprocessing
+
+
+def editarClasificadorBLL(nombreOri, nombreNuev):
+    editarClasificadorDAO(nombreOri, nombreNuev)
 
 
 def reentrenarClasificadorBLL(nombre, entrena_ini, entrena_fin):
@@ -53,30 +57,50 @@ def crearClasificador(nombre, entrena_ini, entrena_fin):
 
     #Llamar a DAO para conseguir los Tweets
     tweets = getTweetsClasificados(entrena_ini, entrena_fin)
-    #textos, labels =getTweetsClasificadosMM(entrena_ini, entrena_fin) #MM
-    print 'fin extracción DB'
-    #data, labels, vectorizer = transform(tweets)
 
     textos, labels = transTwToTxt(tweets)
 
     data = vectorizar(textos, nombre)
-    print 'fin vectorizador'
 
     nCores = multiprocessing.cpu_count()
-    print 'fin multiproceso'
+
+    clasificador = SGDClassifier(loss='hinge', n_iter=100)
+
 
     print 'Calculando la precision de ' + nombre + ' desde ' + entrena_ini + ' hasta ' + entrena_fin
-    clasificador = SGDClassifier(loss='hinge', n_iter=100)
-    print 'fin clasificador'
     scores = cross_val_score(clasificador, data, labels, cv=4, n_jobs=nCores)
-    print 'fin scores'
     accMedio = scores.mean()
     desviacion = scores.std() * 2
+    
+
+    '''
+    # ================== PRUEBA ==========================
+    print 'PRUEBA'
+    from sklearn.model_selection import cross_val_predict
+    from sklearn.metrics import confusion_matrix
+    from sklearn.metrics import classification_report
+
+    predicted = cross_val_predict(clasificador, data, labels, cv=4, n_jobs=nCores)
+
+    cnf = confusion_matrix(labels, predicted)
+
+    report = classification_report(labels, predicted)
+
+    print '\n\n---------REPORT-------------------------------------\n'
+    print report
+
+    print '\n\n---------CONFUSION MATRIX-------------------------------------\n'
+    print cnf
+
+    exit(0)
+    # ================== PRUEBA ==========================
+    '''
+
 
     print 'Entrenando el modelo...'
-    X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.25, random_state=0, stratify=labels)
+    #X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.25, random_state=0, stratify=labels)
     clasificador = SGDClassifier(loss='hinge', n_iter=100, n_jobs=nCores)
-    clasificador = clasificador.fit(X_train, y_train)
+    clasificador = clasificador.fit(data, labels)
 
     print 'Almacenando modelo en /MODELOS/' + nombre + '.pickle'
     with open('../MODELOS/'+ nombre +'.pickle', 'wb') as handle:
