@@ -30,13 +30,14 @@ def editarClasificadorBLL(nombreOri, nombreNuev):
 
 
 def reentrenarClasificadorBLL(nombre, entrena_ini, entrena_fin):
+
     tweets = getTweetsClasificados(entrena_ini, entrena_fin)
 
     data, labels = transform(tweets, nombre)
 
     #nombre = getClasiDefecto()
 
-    nCores = multiprocessing.cpu_count()
+    nCores = multiprocessing.cpu_count()#Da problemas con windows, por eso el __main__
 
     with open('../MODELOS/'+ nombre +'.pickle', 'rb') as input_file:
          clasificador = pickle.load(input_file)
@@ -71,7 +72,7 @@ def crearClasificador(nombre, entrena_ini, entrena_fin):
     scores = cross_val_score(clasificador, data, labels, cv=4, n_jobs=nCores)
     accMedio = scores.mean()
     desviacion = scores.std() * 2
-    
+
 
     '''
     # ================== PRUEBA ==========================
@@ -126,6 +127,7 @@ def eliminarClasificador(nombre):
     vector = os.path.abspath('../VECTORIZER/vectorizer_'+ nombre +'.pickle')
     os.remove(vector)
 
+#crearClasificador("pruebaM2", "2017-01-01","2017-01-02")
     # Como mandarle un alert al tpl con el error ?
     # Si view recibe una excepcion, redirecciona a un tpl de error pasandole:
     # 1. la pagina donde estaba

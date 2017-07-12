@@ -14,7 +14,7 @@
 		<td><strong>Fecha Inicio</strong></td>
 		<td><strong>Fecha Fin</strong></td>
 		<td><strong>Nro Tweets</strong></td>
-		<td></td>	
+		<td></td>
 	</tr>
 	<tr>
 	<td><input class="estilo1" type="text" name="reentre" value="{{reentre}}" readonly></td>
@@ -60,11 +60,11 @@
 		</form>
 		<form name="actualizar" action="/actualizar" method="POST">
 		<td><input type="submit" class="estilo2" onclick="return confirm('¿Esta seguro que desea enviar el formulario?');" name="dict"></td>
-		
+
 	</tr>
 	</table>
 
-	
+
 	<table align="center">
 	<tr>
 		<!-- <td><strong>Categoria</strong></td> -->
@@ -82,7 +82,7 @@
 	%catoldn='catold'+str(i)
 	%texton='texto'+str(i)
 		<tr>
-		<td style="background-color:white"><input type="text" name={{idtn}} style="visibility:hidden" value="{{dict['idt'][i]}}"></td> 
+		<td style="background-color:white"><input type="text" name={{idtn}} style="visibility:hidden" value="{{dict['idt'][i]}}"></td>
 		<td><textarea class="estilo" rows="3" name={{texton}}  cols="90" readonly>{{dict['tweet'][i]}}</textarea> </td>
 			</td>
 			<td valign="top">
@@ -113,21 +113,19 @@
 					<option value="Vivienda">Vivienda</option>
 				</select>
 			</td>
-			<td style="background-color:white"><input type="text" name={{catoldn}} style="visibility:hidden" value="{{dict['catold'][i]}}"></td> 
-			<td style="background-color:white"><input type="text" name={{fechatn}} style="visibility:hidden" value="{{dict['fechaTweet'][i]}}"></td> 
-
+			<td style="background-color:white"><input type="text" name={{catoldn}} style="visibility:hidden" value="{{dict['catold'][i]}}"></td>
+			<td style="background-color:white"><input type="text" name={{fechatn}} style="visibility:hidden" value="{{dict['fechaTweet'][i]}}"></td>
 		</tr>
-		
 		%count=count+1
 		% end
 </table>
 <div class="bottomOfThePage">
         <div class="centerOfThePage">
 		<input type="text" name="contar" style="visibility:hidden" value="{{count}}">
-		
+
 	 </div>
 </div>
 	</form>
-    
+
 </body>
 </html>

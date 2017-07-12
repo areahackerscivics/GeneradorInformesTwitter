@@ -2,9 +2,10 @@
 # encoding: utf-8
 #from bottle import route, run, template
 
-import sys, os
+import sys, os, io
 import numpy as np
 import datetime
+import time
 parent_dir=os.getcwd()
 path= os.path.dirname(parent_dir)
 sys.path.append(path)
@@ -16,6 +17,10 @@ from BLL.revisionBLL import *
 from BLL.metricaBLL import *
 from BLL.clasificacionBLL import *
 from BLL.administrarClasificadorBLL import *
+
+errorP="Ha ocurrido un error a nivel de Base de Datos"
+errorL="No hay tweet que clasificar, pulse OK para regresar"
+today=datetime.datetime.now()
 
 @bottle.get("/")
 def presentar_bienvenida():
@@ -36,7 +41,8 @@ def presentar_bienvenida():
 # ====================  REVISION MANUAL =============================
 @bottle.get('/revision')
 def ver_tweets():
-    dicc={"idt":[],"catold":[],"tweet":[],"catsel":"Ninguna","ntwets":10,"fechaini":"2017-01-01", "fechafin":"2017-01-01","reentre":0}
+
+    dicc={"idt":[],"catold":[],"tweet":[],"catsel":"Ninguna","ntwets":10,"fechaini":"2017-01-01", "fechafin":today,"reentre":0}
     return bottle.template('revision',dict=dicc)
 
 @bottle.post('/revision')
@@ -44,14 +50,29 @@ def listar_tweets():
     #Al cargar la página después de la primera vez se cargan los valores de la página
     catnew= bottle.request.forms.get("catlistar")
     ntwets=bottle.request.forms.get("nlistwets")
-    fechaini= bottle.request.forms.get("FechaInicio")
-    fechafin=bottle.request.forms.get("FechaFin")
-    dicc=listar_tweetBLL(catnew, ntwets,fechaini,fechafin)
+    fechaini= bottle.request.forms.get("FechaInicio")#Fecha en la que se hizo la clasificación
+    fechafin=bottle.request.forms.get("FechaFin")#Fecha en la que se hizo la clasificación
+    dicc=leer_textoclasificadoTodoBLL(catnew, ntwets,fechaini,fechafin)
     return bottle.template('revision',dict=dicc)
+    # try:
+    #     dicc=leer_textoclasificadoTodoBLL(catnew, ntwets,fechaini,fechafin)
+    #     #la validación cuando la consulta no devuelve nada está en la BLL por lógica del negocio
+    #     return bottle.template('revision',dict=dicc)
+    # except OSError as error:
+    #     bottle.redirect('/error?msj='+ str(errorP) +'&page=revision')
+    # except Exception as error:
+    #     bottle.redirect('/error?msj='+ str(errorP) +'&page=revision')
 
 @bottle.post('/actualizar')
 def actualizar_tweets():
     contar=bottle.request.forms.get("contar")
+    try:
+        if contar=="0":
+            return 5/0 #forzar la excepcion
+    except ZeroDivisionError as err:
+        bottle.redirect('/error?msj='+ str(errorL) +'&page=revision')
+    #try:
+
     for i in range(int(contar)):
         catnewp="catnew"+str(i)
         catoldn='catold'+str(i)
@@ -75,19 +96,27 @@ def actualizar_tweets():
             actualizar_textoclasificadosBLL(idt,estado)#R=Reentrenado
             #--------------7.Agregar a la BD de entrenamiento el twit reentrenado--------
             guardar_textoreentrenadoBLL(texto,catnew,idt,fechat)
-
     bottle.redirect('/revision')
+    # except OSError as error:
+    #     bottle.redirect('/error?msj='+ str(errorP) +'&page=revision')
+    # except Exception as error:
+    #     bottle.redirect('/error?msj='+ str(errorP) +'&page=revision')
+
 # ==================== FIN REVISION MANUAL ==========================
 # ====================  ESTADISTICA REVISION MANUAL =============================
 @bottle.get('/metrica')
 def metrica_revision():
     #Al cargar la página después de la primera vez se cargan los valores de la página
-    fechaini= bottle.request.forms.get("FechaInicio")
-    fechafin=bottle.request.forms.get("FechaFin")
-
-    #el resultado se guarda en un diccionario y se envia de vuelta a la página
-    dicc = leer_CalculoxEstadoBLL(fechaini,fechafin)
-    return bottle.template('metrica',dict=dicc)
+    fechaini= bottle.request.forms.get("FechaInicio") #Fecha en la que se hizo la clasificación
+    fechafin=bottle.request.forms.get("FechaFin") #Fecha en la que se hizo la clasificación
+    try:
+        #el resultado se guarda en un diccionario y se envia de vuelta a la página
+        dicc = leer_CalculoxEstadoBLL(fechaini,fechafin)
+        return bottle.template('metrica',dict=dicc)
+    except OSError as error:
+        bottle.redirect('/error?msj='+ str(errorP) +'&page=metrica')
+    except Exception as error:
+        bottle.redirect('/error?msj='+ str(errorP) +'&page=metrica')
 
 @bottle.post('/metrica')
 def metrica_revisionListar():
@@ -95,35 +124,50 @@ def metrica_revisionListar():
     fechaini= bottle.request.forms.get("FechaInicio")
     fechafin=bottle.request.forms.get("FechaFin")
 
-    print fechaini, fechafin
-
     try:
         #el resultado se guarda en un diccionario y se envia de vuelta a la página
         dicc = leer_CalculoxEstadoBLL(fechaini,fechafin)
         return bottle.template('metrica',dict=dicc)
     except OSError as error:
-        bottle.redirect('/error?msj='+ str(error) +'&page=metrica')
+        bottle.redirect('/error?msj='+ str(errorP) +'&page=metrica')
     except Exception as error:
-        bottle.redirect('/error?msj='+ str(error) +'&page=metrica')
+        bottle.redirect('/error?msj='+ str(errorP) +'&page=metrica')
 
 # ==================== FIN ESTADISTICA REVISION MANUAL ==========================
 
 # ====================  CLASIFICACIÓN =============================
 @bottle.get('/clasificar')
 def clasificar_inicio():
+    # try:
     dicc=generar_tabla()
-    print 'get',dicc
     return bottle.template('clasificar',dict=dicc)
+    # except OSError as error:
+    #     bottle.redirect('/error?msj='+ str(errorP) +'&page=clasificar')
+    # except Exception as error:
+    #     bottle.redirect('/error?msj='+ str(errorP) +'&page=clasificar')
+
 
 @bottle.post('/clasificar')
 def clasificar_enviar():
     #1--------------------cargar el corpus-------------------
-    fechaini= bottle.request.forms.get("FechaInicio")
-    fechafin=bottle.request.forms.get("FechaFin")
-    generar_clasificacionBLL(fechaini,fechafin)
-    dicc=generar_tabla()
-    print 'post',dicc
+    #fechaini= bottle.request.forms.get("FechaInicio")#Fecha en la que se hizo la descarga del tweet
+    #fechafin=bottle.request.forms.get("FechaFin") #Fecha en la que se hizo la descarga del tweet
+    contar=bottle.request.forms.get("contar")
+    for i in range(int(contar)):
+            fechatn="fechat"+str(i)
+            fechaTw=bottle.request.forms.get(fechatn)
+            if fechaTw!=None:
+                print fechaTw
+                generar_clasificacionBLL(fechaTw)
+
+    # try:
+        #generar_clasificacionBLL(fechaini,fechafin)#se hace el insert
+    dicc=generar_tabla() #se muestra nuevamente la grilla con los cambios
     return bottle.template('clasificar',dict=dicc)
+    # except OSError as error:
+    #     bottle.redirect('/error?msj='+ str(errorP) +'&page=clasificar')
+    # except Exception as error:
+    #     bottle.redirect('/error?msj='+ str(errorP) +'&page=clasificar')
 
 # ====================  ADMINISTRAR CLASIFICADORES =============================
 

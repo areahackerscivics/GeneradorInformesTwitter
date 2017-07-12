@@ -9,4 +9,15 @@
 
 *.xls
 
+*.bson
+
+*.json
+
+credencialesTwitter.py
+
+archivocsv.py
+
 conexionMongo.py
+FechaCreacion.py
+DescargaTwittStreaming.py
+followers.py
