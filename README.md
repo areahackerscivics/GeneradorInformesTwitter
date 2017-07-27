@@ -15,9 +15,12 @@ Este módulo fue desearrollado con **Python 2.7.11**
 
 ##### Dependencias
 
-* [Bottle V 0.12.13](http://bottlepy.org/docs/0.12/ "Bottle: Python Web Framework")
-* [Pymongo V 3.4.0](https://api.mongodb.com/python/current/ "Pymongo 3.4.0")
-* [nltk 3.2.4](http://www.nltk.org/)
+* [Bottle v0.12.13](http://bottlepy.org/docs/0.12/ "Bottle: Python Web Framework")
+* [Pymongo v3.4.0](https://api.mongodb.com/python/current/ "Pymongo 3.4.0")
+* [nltk v3.2.4](http://www.nltk.org/)
+* [scikit-learn v0.18.2](http://scikit-learn.org/stable/index.html)
+ * [NumPy v1.13.1](http://www.numpy.org/)
+ * [SciPy v0.19.1](https://www.scipy.org/)
 
 **Nota**: El modulo fue desarrollado usando las librerías que se mencionaron anteriormente, por lo que se recomienda  que para un adecuado funcionamiento se usen  las versiones establecidas.
 
@@ -122,4 +125,4 @@ El [**Àrea Hackers cívics**](http://civichackers.cc) ha sido impulsada por la 
 
 ## Términos de uso
 
-![](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)El contenido de este repositorio está sujeto a la licencia [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
+El contenido de este repositorio está sujeto a la licencia [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html). ![](https://www.gnu.org/graphics/gplv3-127x51.png)
