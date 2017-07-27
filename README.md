@@ -1,11 +1,11 @@
-# Descarga Tweets
+# Sistema de clasificación
 
 
 ## Descripción
 
-Este repositorio contiene el módulo de Descarga de Tweets  del  proyecto "Sistema automático de clasificación de mensajes intercambiados entre la ciudadanía y el Ayuntamiento de València". A partir de los canales de comunicación del Ayuntamiento de València se ha generado un formato que cualquier consistorio puede adaptar a sus necesidades.
+Este repositorio contiene el módulo principal para clasificar textos en el marco del proyecto "Sistema automático de clasificación de mensajes intercambiados entre la ciudadanía y el Ayuntamiento de València". A partir de los canales de comunicación del Ayuntamiento de València se ha generado un formato que cualquier consistorio puede adaptar a sus necesidades.
 
-El trabajo realizado se concreta en forma de código fuente  que  está diseñada para descargar tweets filtrando por unas  las cuentas que se deseen especificadar.
+El trabajo realizado se concreta en forma de código fuente  que  está diseñada para clasificar textos, inicialmente tweets.
 
 
 ## Guía de uso
@@ -15,8 +15,9 @@ Este módulo fue desearrollado con **Python 2.7.11**
 
 ##### Dependencias
 
+* [Bottle V 0.12.13](http://bottlepy.org/docs/0.12/ "Bottle: Python Web Framework")
 * [Pymongo V 3.4.0](https://api.mongodb.com/python/current/ "Pymongo 3.4.0")
-* [Tweepy V 3.5.0](http://tweepy.readthedocs.io/en/v3.5.0/ "Tweepy V 3.5.0")
+* [nltk 3.2.4](http://www.nltk.org/)
 
 **Nota**: El modulo fue desarrollado usando las librerías que se mencionaron anteriormente, por lo que se recomienda  que para un adecuado funcionamiento se usen  las versiones establecidas.
 
@@ -25,6 +26,7 @@ Este módulo fue desearrollado con **Python 2.7.11**
 Como sistema de almacenamiento se usa MongoDB que es una base de datos NoSQL que guarda los datos en documentos almacenados en BSON. Para este módulo se usa una colección que tiene la siguiente estructura:
 
 ```json
+TWEET
 {
     "_id" : ObjectId("58adb1bebc54f400e09531ea"),
     "username" : "pepito",
@@ -40,19 +42,61 @@ Como sistema de almacenamiento se usa MongoDB que es una base de datos NoSQL que
 }
 
 ```
-La colección se crea en tiempo de ejecución del código _DescargaTweet.py_ la primera vez que se ejecuta. Si los nombres de los campos no han sufrido ningún cambio, las siguientes veces que se ejecute el código, tan solo insertará registros.
+```json
+TWENTRENADO
+{
+    "_id" : ObjectId("58de2b51bc54f401c8fead42"),
+    "categoria" : "Comercio",
+    "idt" : "123456789",
+    "texto" : "este texto habla sobre Comercio",
+    "reentreno" : true,
+    "fecha" : ISODate("2017-03-31T12:11:29.398Z"),
+    "fechaTweet" : ISODate("2017-03-14T20:36:56.000Z")
+}
 
-En el archivo **ConexionMongoPublico.py**, se indica el nombre de la colección y la base de datos con la que se trabajó, si desea poner otro nombre a la base de datos o a la colección, es necesario que actualice el archivo. Finalmente debe cambiar  el nombre a  **ConexionMongo.py** .
+```
+```json
+TWCLASIFICADO
+{
+    "_id" : ObjectId("58de2570bc54f43b544428e0"),
+    "categoria" : "Seguridad",
+    "idt" : "123456789",
+    "texto" : "este texto habla sobre seguridad",
+    "puntaje" : 0.508395516543446,
+    "fecha" : ISODate("2017-03-31T11:46:24.669Z"),
+    "fechaTweet" : ISODate("2017-03-22T10:12:51.000Z")
+}
 
-En el archivo **credencialesTwitterPublico.py**, se  deben indicar las credenciales de tweeter requeridas para acceder a la API de tweeter. Finalmente debe cambiar  el nombre a  **credencialesTwitter.py**.
+```
+```json
+clasificadores
+{
+    "_id" : ObjectId("5943be112f102319320438ea"),
+    "entrena_ini" : ISODate("2017-01-01T00:00:00.000Z"),
+    "fecha_creacion" : ISODate("2017-06-16T13:16:32.591Z"),
+    "desviacion" : 0.162941509631049,
+    "entrena_fin" : ISODate("2017-01-02T23:59:59.999Z"),
+    "nombre" : "prueba",
+    "accuracy" : 0.687914670421071,
+    "predeterminado" : true
+}
 
-El Àrea se abstiene de publicar los tweets descargados hasta el momento, debido a la Ley Orgánica de Protección de Datos.
+```
+La colección TWEET se crea en tiempo de ejecución la primera vez que se ejecuta el código _DescargaTweet.py_  que se encuentra dentro del módulo  <a href="https://github.com/areahackerscivics/DescargaTweet" target="_blank_"> DescargaTweet </a>.
+
+La colección TWENTRENADO contiene los textos que servirán de entrenamiento al sistema de clasificación, se recomienda tener una cantidad considerable para mejorar las bondades del clasificador.
+
+La colección TWCLASIFICADO contiene los textos clasificados automáticamente, cuando se ejecuta el algoritmo de clasificación. Como hablamos de un sistema de clasificación supervisada debe existir la colección TWENTRENADO.
+
+La colección clasificadores contiene los nombres de los clasificadores que se van usando a través del tiempo.
+
+En el archivo **ConexionMongoPublico.py**, se indican los nombres de las colecciones y la base de datos con la que se trabajó, si desea poner otro nombre a la base de datos o  de alguna de las colecciones, es necesario que actualice el archivo. Finalmente debe cambiar  el nombre a  **ConexionMongo.py** .
+
+El Àrea se abstiene de publicar los datos almacenados, debido a la Ley Orgánica de Protección de Datos.
 
 ##### Funcionamiento del proyecto
 
-Dentro de la carpeta se encuentra el archivo _DescargaTweet.py_ que permite arrancar el proyecto.
-
-Si se van a cambiar las cuentas de las cuales se desea descargar tweets es en este archivo donde deben hacerlo  _cuentas.csv_.
+En construcción....
 
 
 ## Equipo
