@@ -10,7 +10,7 @@ sys.path.append(path)
 
 import pickle
 
-from sklearn.model_selection import train_test_split
+#from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 
 from sklearn.decomposition import PCA
@@ -25,71 +25,91 @@ from UTIL.tweetsToText import *
 import multiprocessing
 
 
+def editarClasificadorBLL(nombreOri, nombreNuev):
+    editarClasificadorDAO(nombreOri, nombreNuev)
+
+
 def reentrenarClasificadorBLL(nombre, entrena_ini, entrena_fin):
-    if __name__ == '__main__':
-        tweets = getTweetsClasificados(entrena_ini, entrena_fin)
 
-        data, labels = transform(tweets, nombre)
+    tweets = getTweetsClasificados(entrena_ini, entrena_fin)
 
-        #nombre = getClasiDefecto()
+    data, labels = transform(tweets, nombre)
 
-        nCores = multiprocessing.cpu_count()#Da problemas con windows, por eso el __main__
+    #nombre = getClasiDefecto()
 
-        with open('../MODELOS/'+ nombre +'.pickle', 'rb') as input_file:
-             clasificador = pickle.load(input_file)
+    nCores = multiprocessing.cpu_count()#Da problemas con windows, por eso el __main__
 
-        scores = cross_val_score(clasificador, data, labels, cv=4, n_jobs=nCores)
-        accMedio = scores.mean()
-        desviacion = scores.std() * 2
+    with open('../MODELOS/'+ nombre +'.pickle', 'rb') as input_file:
+         clasificador = pickle.load(input_file)
 
-        clasificador = clasificador.partial_fit(data, labels)
+    scores = cross_val_score(clasificador, data, labels, cv=4, n_jobs=nCores)
+    accMedio = scores.mean()
+    desviacion = scores.std() * 2
 
-        with open('../MODELOS/'+ nombre +'.pickle', 'wb') as handle:
-            pickle.dump(clasificador, handle)
+    clasificador = clasificador.partial_fit(data, labels)
 
-        updateClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin)
+    with open('../MODELOS/'+ nombre +'.pickle', 'wb') as handle:
+        pickle.dump(clasificador, handle)
+
+    updateClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin)
 
 
 def crearClasificador(nombre, entrena_ini, entrena_fin):
 
-    if __name__ == '__main__':
-        #Llamar a DAO para conseguir los Tweets
-        tweets = getTweetsClasificados(entrena_ini, entrena_fin)
-        #textos, labels =getTweetsClasificadosMM(entrena_ini, entrena_fin) #MM
-        print 'fin extracción DB'
-        #data, labels, vectorizer = transform(tweets)
+    #Llamar a DAO para conseguir los Tweets
+    tweets = getTweetsClasificados(entrena_ini, entrena_fin)
 
-        textos, labels = transTwToTxt(tweets)
+    textos, labels = transTwToTxt(tweets)
 
-        data = vectorizar(textos, nombre)
-        print 'fin vectorizador'
+    data = vectorizar(textos, nombre)
 
-        nCores = multiprocessing.cpu_count() #Da problemas con windows, por eso el __main__
-        print 'fin multiproceso', nCores
+    nCores = multiprocessing.cpu_count()
 
-        print 'Calculando la precision de ' + nombre + ' desde ' + entrena_ini + ' hasta ' + entrena_fin
-        clasificador = SGDClassifier(loss='hinge', n_iter=100)
-        print 'fin clasificador'
+    clasificador = SGDClassifier(loss='hinge', n_iter=100)
 
 
-        scores = cross_val_score(clasificador, data, labels, cv=4, n_jobs=nCores)
-
-        print 'fin scores'
-        accMedio = scores.mean()
-        desviacion = scores.std() * 2
-
-        print 'Entrenando el modelo...'
-        X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.25, random_state=0, stratify=labels)
-        clasificador = SGDClassifier(loss='hinge', n_iter=100, n_jobs=nCores)
-        clasificador = clasificador.fit(X_train, y_train)
-
-        print 'Almacenando modelo en /MODELOS/' + nombre + '.pickle'
-        with open('../MODELOS/'+ nombre +'.pickle', 'wb') as handle:
-            pickle.dump(clasificador, handle)
+    print 'Calculando la precision de ' + nombre + ' desde ' + entrena_ini + ' hasta ' + entrena_fin
+    scores = cross_val_score(clasificador, data, labels, cv=4, n_jobs=nCores)
+    accMedio = scores.mean()
+    desviacion = scores.std() * 2
 
 
-        #Llamar a DAO para que guarde el nombre, ACC, DESV
-        addClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin)
+    '''
+    # ================== PRUEBA ==========================
+    print 'PRUEBA'
+    from sklearn.model_selection import cross_val_predict
+    from sklearn.metrics import confusion_matrix
+    from sklearn.metrics import classification_report
+
+    predicted = cross_val_predict(clasificador, data, labels, cv=4, n_jobs=nCores)
+
+    cnf = confusion_matrix(labels, predicted)
+
+    report = classification_report(labels, predicted)
+
+    print '\n\n---------REPORT-------------------------------------\n'
+    print report
+
+    print '\n\n---------CONFUSION MATRIX-------------------------------------\n'
+    print cnf
+
+    exit(0)
+    # ================== PRUEBA ==========================
+    '''
+
+
+    print 'Entrenando el modelo...'
+    #X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.25, random_state=0, stratify=labels)
+    clasificador = SGDClassifier(loss='hinge', n_iter=100, n_jobs=nCores)
+    clasificador = clasificador.fit(data, labels)
+
+    print 'Almacenando modelo en /MODELOS/' + nombre + '.pickle'
+    with open('../MODELOS/'+ nombre +'.pickle', 'wb') as handle:
+        pickle.dump(clasificador, handle)
+
+
+    #Llamar a DAO para que guarde el nombre, ACC, DESV
+    addClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin)
 
 
 

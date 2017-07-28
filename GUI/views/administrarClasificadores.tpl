@@ -1,43 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Administrar Clasificadores</title>
-  <link rel="stylesheet" type="text/css" href="/css/main.css">
-  <script type="text/javascript" src="/js/administrarClasificadores.js"></script>
 
-  <style>
-        .label {text-align: right}
-        .error {color: red}
-  </style>
-</head>
-<class="product-details-title">
-  <body>
+% include('menu.tpl', title='Administrar Clasificadores')
 
-
-    <!-- menu -->
-    <ul>
-      <li class="dropdown">
-        <a href="javascript:void(0)" class="dropbtn">Administrar</a>
-        <div class="dropdown-content">
-              <a href="/clasificar">Clasificación</a>
-              <a href="/ListarClasificadores">Clasificadores</a>
-        </div>
-      </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)" class="dropbtn">Revisar</a>
-        <div class="dropdown-content">
-              <a href="/revision">Revision por Categoría</a>
-              <a href="/metrica">Métricas</a>
-        </div>
-      </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)" class="dropbtn">Reporte</a>
-        <div class="dropdown-content">
-              <a href="#">Reporte 1</a>
-        </div>
-      </li>
-    </ul>
-    <!-- fin menu -->
 
     <!-- Content izquierda. Tabla de clasificadores. -->
     <div id="ac_cont_izq">
@@ -139,7 +104,29 @@
         </form>
       </div>
       <div id="editar">
-        No disponible
+        <form name="editar" action="/Editar" method="POST">
+          <table>
+            <tr>
+              <td>Nombre:</td>
+              <td>
+                <input type="text" id="inpEditar" name="editar_nombre" >
+              </td>
+            </tr>
+            <tr>
+              <td>Nuevo nombre:</td>
+              <td>
+                <input type="text" name="editar_nombre_nuevo" >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="editar_predeterminado">¿Utilizar como predeterminado?<br>
+              </td>
+            </tr>
+          </table>
+
+          <input type="submit" value="Enviar" />
+        </form>
       </div>
       <div id="reentrenar">
         <form name="reentrenar" action="/Reentrenar" method="POST">

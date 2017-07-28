@@ -16,6 +16,7 @@ div.clear {
 }
 </style>
 <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <script type="text/javascript" src="/js/administrarClasificadores.js"></script>
 <meta charset="utf-8" />
 </head>
   <body>
@@ -44,5 +45,3 @@ div.clear {
       </li>
     </ul>
     <!-- fin menu -->
-	  
-	  

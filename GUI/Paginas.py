@@ -171,6 +171,15 @@ def clasificar_enviar():
 
 # ====================  ADMINISTRAR CLASIFICADORES =============================
 
+@bottle.post('/Editar')
+def editarClasificador():
+    nombreOri = bottle.request.forms.get('editar_nombre')
+    nombreNuev = bottle.request.forms.get('editar_nombre_nuevo')
+
+    editarClasificadorBLL(nombreOri, nombreNuev)
+
+    bottle.redirect("/ListarClasificadores")
+
 @bottle.post('/Reentrenar')
 def reentrenarClasificador():
     nombre = bottle.request.forms.get('reentrenar_nombre')

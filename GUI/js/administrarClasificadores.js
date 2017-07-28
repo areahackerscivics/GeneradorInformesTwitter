@@ -29,4 +29,5 @@ function seleccionarFila(elem){
   nombre = nombre.replace(/\s+/g,"")
   document.getElementById('inpBorrar').value = nombre;
   document.getElementById('inpReentrenar').value = nombre;
+  document.getElementById('inpEditar').value = nombre;
 }
