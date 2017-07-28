@@ -25,8 +25,8 @@ from UTIL.tweetsToText import *
 import multiprocessing
 
 
-def editarClasificadorBLL(nombreOri, nombreNuev):
-    editarClasificadorDAO(nombreOri, nombreNuev)
+def editarClasificadorBLL(nombreOri, nombreNuev, predeterminado):
+    editarClasificadorDAO(nombreOri, nombreNuev, predeterminado)
 
 
 def reentrenarClasificadorBLL(nombre, entrena_ini, entrena_fin):

@@ -125,7 +125,7 @@ def getClasiDefecto():
     return ((list(clasificador))[0])['nombre']
 
 
-def editarClasificadorDAO(nombreOri, nombreNuev):
+def editarClasificadorDAO(nombreOri, nombreNuev, predeterminado):
     conexion = getConexion()
     client = MongoClient(conexion)
     tdb = getDB()
@@ -134,16 +134,62 @@ def editarClasificadorDAO(nombreOri, nombreNuev):
     coleccion = getCollClasificadores()
     cursor = db[coleccion]
 
-    clasificador =cursor.find_one({'nombre':nombreOri})
-    reg_id=clasificador['_id']
 
-    result = cursor.update_one(
-                            {'_id':reg_id},
-                            {'$set':{
-                                'nombre':nombreNuev
+    if predeterminado != None:
+
+        #Primero busco el clasificador que actualmente es el predeterminado
+        clasificador =cursor.find_one({'predeterminado':True})
+        reg_id=clasificador['_id']
+
+        result = cursor.update_one(
+                                {'_id':reg_id},
+                                {'$set':{
+                                    'nombre':nombreNuev,
+                                    'predeterminado':False
+                                    }
                                 }
-                            }
-    )
+        )
+
+        if nombreNuev != None:
+            #Luego busco el que queremos cambiar y actualizamos informacion
+            clasificador =cursor.find_one({'nombre':nombreOri})
+            reg_id=clasificador['_id']
+
+            result = cursor.update_one(
+                                    {'_id':reg_id},
+                                    {'$set':{
+                                        'nombre':nombreNuev,
+                                        'predeterminado':True
+                                        }
+                                    }
+            )
+
+        else:
+            clasificador =cursor.find_one({'nombre':nombreOri})
+            reg_id=clasificador['_id']
+
+            result = cursor.update_one(
+                                    {'_id':reg_id},
+                                    {'$set':{
+                                        'predeterminado':True
+                                        }
+                                    }
+            )
+
+    else:
+        if nombreNuev != None:
+            clasificador =cursor.find_one({'nombre':nombreOri})
+            reg_id=clasificador['_id']
+
+            result = cursor.update_one(
+                                    {'_id':reg_id},
+                                    {'$set':{
+                                        'nombre':nombreNuev
+                                        }
+                                    }
+            )
+
+
 
 def updateClasificador(nombre, accMedio, desviacion, entrena_ini, entrena_fin):
 

@@ -173,10 +173,12 @@ def clasificar_enviar():
 
 @bottle.post('/Editar')
 def editarClasificador():
+
     nombreOri = bottle.request.forms.get('editar_nombre')
     nombreNuev = bottle.request.forms.get('editar_nombre_nuevo')
+    predeterminado = bottle.request.forms.get('editar_predeterminado')
 
-    editarClasificadorBLL(nombreOri, nombreNuev)
+    editarClasificadorBLL(nombreOri, nombreNuev, predeterminado)
 
     bottle.redirect("/ListarClasificadores")
 
