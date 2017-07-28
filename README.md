@@ -82,13 +82,13 @@ clasificadores
 }
 
 ```
-La colección TWEET se crea en tiempo de ejecución la primera vez que se ejecuta el código _DescargaTweet.py_  que se encuentra dentro del módulo  <a href="https://github.com/areahackerscivics/DescargaTweet" target="_blank_"> DescargaTweet </a>.
+La colección **TWEET** se crea en tiempo de ejecución la primera vez que se ejecuta el código _DescargaTweet.py_  que se encuentra dentro del módulo  <a href="https://github.com/areahackerscivics/DescargaTweet" target="_blank_"> DescargaTweet </a>.
 
-La colección TWENTRENADO contiene los textos que servirán de entrenamiento al sistema de clasificación, se recomienda tener una cantidad considerable para mejorar las bondades del clasificador.
+La colección **TWENTRENADO** contiene los textos que servirán de entrenamiento al sistema de clasificación, se recomienda tener una cantidad considerable para mejorar las bondades del clasificador.
 
-La colección TWCLASIFICADO contiene los textos clasificados automáticamente, cuando se ejecuta el algoritmo de clasificación. Como hablamos de un sistema de clasificación supervisada debe existir la colección TWENTRENADO.
+La colección **TWCLASIFICADO** contiene los textos clasificados automáticamente. Como hablamos de un sistema de clasificación supervisada debe existir la colección **TWENTRENADO**.
 
-La colección clasificadores contiene los nombres de los clasificadores que se van usando a través del tiempo.
+La colección **clasificadores** contiene los nombres de los clasificadores que se van usando a lo largo del tiempo.
 
 En el archivo **ConexionMongoPublico.py**, se indican los nombres de las colecciones y la base de datos con la que se trabajó, si desea poner otro nombre a la base de datos o  de alguna de las colecciones, es necesario que actualice el archivo. Finalmente debe cambiar  el nombre a  **ConexionMongo.py** .
 
@@ -96,7 +96,13 @@ El Àrea se abstiene de publicar los datos almacenados, debido a la Ley Orgánic
 
 ##### Funcionamiento del proyecto
 
-En construcción....
+Este proyecto está diseñado con una arquitectura de 3 capas.  
+
+**Capa de acceso a datos (DAO)**, que contiene todas las consultas a la base de datos.  
+
+**Capa Lógica o de negocio (BLL)**, es la encargada de gestionar todo lo referente a la lógica del proyecto.
+
+**Capa de presentación (GUI)** es la que comunica la información al usuario y se inicia con la ejecución del archivo  _Paginas.py_
 
 
 ## Equipo
